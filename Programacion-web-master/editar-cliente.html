@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente - SEVENGAMER</title>
+    <link rel="icon" href="media/control4.png" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        :root {
+            --admin-primary: #ff0000;
+            --admin-secondary: #1a1a1a;
+            --admin-accent: #cc0000;
+        }
+
+        body {
+            background-color: var(--admin-secondary);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-right: 2px solid var(--admin-primary);
+            position: fixed;
+            height: 100vh;
+            width: 250px;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--admin-primary);
+            margin-top: 0;
+        }
+
+        .sidebar-header h2 {
+            color: var(--admin-primary);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            font-size: 1.5em;
+            padding-top: 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: var(--admin-primary);
+            transform: translateX(5px);
+        }
+
+        .sidebar-menu a.active {
+            background-color: var(--admin-primary);
+            font-weight: bold;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: transparent;
+        }
+
+        .edit-form-container {
+            background-color: rgba(42, 42, 42, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 800px;
+            border: 1px solid #444;
+            backdrop-filter: blur(5px);
+        }
+
+        .edit-form-container h2 {
+            color: var(--admin-primary);
+            text-align: left;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            padding-left: 10px;
+            border-bottom: 1px solid var(--admin-primary);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            font-size: 1em;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background-color: var(--admin-primary);
+            color: white;
+        }
+
+        .btn-cancel {
+            background-color: #444;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-save:hover {
+            background-color: var(--admin-accent);
+        }
+
+        .btn-cancel:hover {
+            background-color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .edit-form-container {
+                width: 100%;
+                margin: 10px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>SEVENGAMER</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="panel-admin.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="panel-admin.html#gestion-clientes"><i class="fas fa-users"></i> Gestión de Clientes</a></li>
+                <li><a href="panel-admin.html#gestion-productos"><i class="fas fa-box"></i> Gestión de Productos</a></li>
+                <li><a href="panel-admin.html#gestion-pedidos"><i class="fas fa-shopping-cart"></i> Gestión de Pedidos</a></li>
+                <li><a href="panel-admin.html#reportes"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+                <li><a href="admin.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="edit-form-container">
+                <h2>Editar Cliente</h2>
+                <form id="editClientForm" onsubmit="return guardarCambios(event)">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección:</label>
+                        <input type="text" id="direccion" name="direccion" required>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-cancel" onclick="window.location.href='panel-admin.html#gestion-clientes'">Cancelar</button>
+                        <button type="submit" class="btn btn-save">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar datos del cliente cuando se abre la página
+        window.onload = function() {
+            // Obtener el ID del cliente de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const clienteId = urlParams.get('id');
+            
+            if (clienteId) {
+                // Aquí normalmente harías una llamada a tu API para obtener los datos del cliente
+                // Por ahora, simularemos datos de ejemplo
+                const cliente = {
+                    nombre: 'Juan',
+                    apellido: 'Pérez',
+                    email: 'juan.perez@email.com',
+                    telefono: '123456789',
+                    direccion: 'Calle Principal 123'
+                };
+
+                // Llenar el formulario con los datos del cliente
+                document.getElementById('nombre').value = cliente.nombre;
+                document.getElementById('apellido').value = cliente.apellido;
+                document.getElementById('email').value = cliente.email;
+                document.getElementById('telefono').value = cliente.telefono;
+                document.getElementById('direccion').value = cliente.direccion;
+            }
+        };
+
+        function guardarCambios(event) {
+            event.preventDefault();
+            
+            // Aquí iría la lógica para guardar los cambios en la base de datos
+            // Por ahora, solo mostraremos un mensaje de éxito
+            alert('Cambios guardados exitosamente');
+            
+            // Redirigir de vuelta a la página de gestión de clientes
+            window.location.href = 'panel-admin.html#gestion-clientes';
+            
+            return false;
+        }
+    </script>
+</body>
+
+</html> 

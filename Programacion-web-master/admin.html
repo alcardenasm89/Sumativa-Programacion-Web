@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Administrador - SEVENGAMER</title>
+    <link rel="icon" href="media/control4.png" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+        .admin-header {
+            background-color: #1a1a1a;
+            color: #ff0000;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 2px solid #ff0000;
+        }
+        .admin-form-box {
+            border: 2px solid #ff0000;
+            background-color: rgba(26, 26, 26, 0.9);
+        }
+        .admin-form-box h2 {
+            color: #ff0000;
+        }
+        .admin-submit-btn {
+            background-color: #ff0000;
+        }
+        .admin-submit-btn:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="index.html" class="logo-link">
+                    <p class="logo">SEVENGAMER</p>
+                </a>
+                <p class="slogan">Panel de Administración</p>
+            </div>
+            <nav>
+                <a href="login.html" class="tu-clase-de-estilo">Volver al Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <div class="form-box admin-form-box">
+            <div class="admin-header">
+                <h2>Acceso Administrador</h2>
+            </div>
+            <form id="adminLoginForm" onsubmit="return validarFormulario(event)">
+                <div class="form-group">
+                    <label for="admin-username">Usuario Administrador:</label>
+                    <input type="text" id="admin-username" name="admin-username">
+                    <span class="error-message" id="admin-username-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="admin-password">Contraseña:</label>
+                    <input type="password" id="admin-password" name="admin-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('admin-password')">
+                        <i class="fas fa-eye" id="toggleIcon-admin-password"></i>
+                    </button>
+                    <span class="error-message" id="admin-password-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="admin-remember-me" name="admin-remember-me">
+                        <span class="checkmark"></span>
+                        Mantener sesión
+                    </label>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="submit-btn admin-submit-btn">Acceder al Panel</button>
+                    <button type="reset" class="reset-btn">Limpiar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/validaciones_login.js"></script>
+    <script>
+        // Función para mostrar/ocultar contraseña
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(`toggleIcon-${inputId}`);
+            const error = document.getElementById(`${inputId}-error`);  // Error correspondiente a la contraseña
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                error.style.display = 'none';  // Ocultar el mensaje de error cuando la contraseña sea visible
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Validar el formulario de login
+        function validarFormulario(event) {
+            event.preventDefault();  // Evitar el envío del formulario si hay un error
+
+            let esValido = true;
+
+            const username = document.getElementById('admin-username');
+            const usernameError = document.getElementById('admin-username-error');
+            const password = document.getElementById('admin-password');
+            const passwordError = document.getElementById('admin-password-error');
+
+            // Validación del nombre de usuario
+            if (username.value.trim() === '') {
+                usernameError.textContent = 'Por favor, ingrese su nombre de usuario';
+                usernameError.style.display = 'block';
+                esValido = false;
+            } else {
+                usernameError.style.display = 'none';
+            }
+
+            // Validación de la contraseña
+            if (password.value.trim() === '') {
+                passwordError.textContent = 'Por favor, ingrese su contraseña';
+                passwordError.style.display = 'block';
+                esValido = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            // Si los campos son válidos, redirigimos
+            if (esValido) {
+                const usernameValue = username.value;
+                const passwordValue = password.value;
+
+                // Aquí va la validación de las credenciales del administrador
+                if (usernameValue === 'admin' && passwordValue === 'admin123') {
+                    window.location.href = 'panel-admin.html';
+                } else {
+                    alert('Credenciales incorrectas. Por favor, intente nuevamente.');
+                }
+            }
+
+            return esValido;
+        }
+
+        // Event Listeners para manejar validaciones en tiempo real
+        document.getElementById('admin-username').addEventListener('input', function() {
+            const usernameError = document.getElementById('admin-username-error');
+            if (this.value.trim() === '') {
+                usernameError.textContent = 'Por favor, ingrese su nombre de usuario';
+                usernameError.style.display = 'block';
+            } else {
+                usernameError.style.display = 'none';
+            }
+        });
+
+        document.getElementById('admin-password').addEventListener('input', function() {
+            const passwordError = document.getElementById('admin-password-error');
+            if (this.value.trim() === '') {
+                passwordError.textContent = 'Por favor, ingrese su contraseña';
+                passwordError.style.display = 'block';
+            } else {
+                passwordError.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

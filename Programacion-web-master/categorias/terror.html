@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Terror - SEVENGAMER</title>
+    <link rel="icon" href="../media/control4.png" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body class="categorias-page">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="../index.html" class="logo-link">
+                    <p class="logo">SEVENGAMER</p>
+                </a>
+                <p class="slogan">Juegos de un verdadero gamer</p>
+            </div>
+            <nav>
+                <a href="../login.html" class="tu-clase-de-estilo">Iniciar Sesión</a>
+                <a href="#" class="carrito-icon" id="carritoBtn">
+                    <img src="../media/carrito-compras.png" alt="Carrito de compras" class="carrito-img">
+                    <span id="contador-carrito">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Modal del Carrito -->
+    <div class="carrito-modal" id="carritoModal">
+        <div class="carrito-header">
+            <h2>Carrito de Compras</h2>
+            <button class="cerrar-carrito" onclick="cerrarCarrito()">&times;</button>
+        </div>
+        <div class="carrito-items" id="carritoItems">
+            <!-- Los items del carrito se agregarán aquí dinámicamente -->
+        </div>
+        <div class="carrito-total">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">CLP$ 0</span>
+            </div>
+            <div class="total-row">
+                <span>IVA (19%):</span>
+                <span id="iva">CLP$ 0</span>
+            </div>
+            <div class="total-row final">
+                <span>Total:</span>
+                <span id="total">CLP$ 0</span>
+            </div>
+            <button class="checkout-btn" onclick="procederPago()">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <!-- Menú lateral de categorías -->
+        <aside class="sidebar">
+            <h2>Categorías</h2>
+            <ul class="categoria-lista">
+                <li><a href="../index.html"><span>Todos</span></a></li>
+                <li><a href="terror.html" class="active"><span>Terror</span></a></li>
+                <li><a href="mundo-abierto.html"><span>Mundo abierto</span></a></li>
+                <li><a href="accion.html"><span>Acción</span></a></li>
+                <li><a href="carreras.html"><span>Carreras</span></a></li>
+                <li><a href="deportes.html"><span>Deportes</span></a></li>
+                <li><a href="rol.html"><span>Rol</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1>Terror</h1>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar juegos de terror...">
+                <button type="button" onclick="buscarJuegos()">🔍</button>
+            </div>
+
+            <div class="juegos-lista">
+                <div class="juego-card">
+                    <img src="../media/resident-evil-village.jpg" alt="Resident Evil Village">
+                    <div class="juego-info">
+                        <h3>Resident Evil Village</h3>
+                        <p class="precio">CLP$ 42.000</p>
+                        <div class="detalles-container">
+                            <a href="../detalles-juegos/resident-evil-village.html" class="ver-detalles">Ver Detalles</a>
+                            <button class="agregar-carrito" onclick="agregarAlCarrito('re8', 'Resident Evil Village', 42000, '../media/resident-evil-village.jpg')">Agregar al carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="juego-card">
+                    <img src="../media/outlast.jpg" alt="Outlast">
+                    <div class="juego-info">
+                        <h3>Outlast</h3>
+                        <p class="precio">CLP$ 32.000</p>
+                        <div class="detalles-container">
+                            <a href="../detalles-juegos/outlast.html" class="ver-detalles">Ver Detalles</a>
+                            <button class="agregar-carrito" onclick="agregarAlCarrito('outlast', 'Outlast', 32000, '../media/outlast.jpg')">Agregar al carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="juego-card">
+                    <img src="../media/deadspace.avif" alt="Dead Space Remake">
+                    <div class="juego-info">
+                        <h3>Dead Space Remake</h3>
+                        <p class="precio">CLP$ 48.000</p>
+                        <div class="detalles-container">
+                            <a href="../detalles-juegos/dead-space.html" class="ver-detalles">Ver Detalles</a>
+                            <button class="agregar-carrito" onclick="agregarAlCarrito('deadspace', 'Dead Space Remake', 48000, '../media/deadspace.avif')">Agregar al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../js/search.js"></script>
+    <script src="../js/carrito.js"></script>
+</body>
+</html> 

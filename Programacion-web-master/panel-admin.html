@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - SEVENGAMER</title>
+    <link rel="icon" href="media/control4.png" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        :root {
+            --admin-primary: #ff0000;
+            --admin-secondary: #1a1a1a;
+            --admin-accent: #cc0000;
+        }
+
+        body {
+            background-color: var(--admin-secondary);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-right: 2px solid var(--admin-primary);
+            position: fixed;
+            height: 100vh;
+            width: 250px;
+            top: 0;
+            left: 0;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--admin-primary);
+            margin-top: 0;
+        }
+
+        .sidebar-header h2 {
+            color: var(--admin-primary);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            font-size: 1.5em;
+            padding-top: 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: var(--admin-primary);
+            transform: translateX(5px);
+        }
+
+        .sidebar-menu a.active {
+            background-color: var(--admin-primary);
+            font-weight: bold;
+        }
+
+        .main-panel {
+            flex: 1;
+            position: relative;
+            padding-top: 60px;
+            margin-left: 250px;
+        }
+
+        .content-header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 250px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #2a2a2a;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-title {
+            color: var(--admin-primary);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            font-size: 2em;
+            margin-right: 40px;
+        }
+
+        .logout-btn {
+            background-color: var(--admin-primary);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--admin-accent);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            padding: 20px;
+            margin-left: 20px;
+            background-color: transparent;
+        }
+
+        .content-section {
+            background-color: rgba(42, 42, 42, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            height: 200px;
+            border: 1px solid #444;
+            backdrop-filter: blur(5px);
+        }
+
+        .content-section h2 {
+            color: var(--admin-primary);
+            text-align: left;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            padding-left: 10px;
+            border-bottom: 1px solid var(--admin-primary);
+            padding-bottom: 8px;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 0;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            height: 120px;
+        }
+
+        .stat-card {
+            background-color: rgba(51, 51, 51, 0.7);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid #444;
+            flex: 1;
+            width: 180px;
+            height: 100px;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            color: var(--admin-primary);
+            margin: 0 0 5px 0;
+            font-size: 0.9em;
+        }
+
+        .stat-card p {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        .data-table th {
+            background-color: var(--admin-primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        .data-table tr:hover {
+            background-color: #444;
+        }
+
+        .action-btn {
+            background-color: var(--admin-primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: var(--admin-accent);
+            transform: translateY(-2px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            font-size: 1em;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--admin-primary);
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--admin-accent);
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .content-section {
+                margin-left: 10px;
+                padding: 20px;
+            }
+
+            .dashboard-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .content-header {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        #inventario-section {
+            width: 800px;
+            height: auto;
+            min-height: 400px;
+            padding: 20px;
+        }
+
+        #inventario-section .data-table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #inventario-section .data-table th,
+        #inventario-section .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        #inventario-section .data-table th {
+            background-color: var(--admin-primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        #inventario-section .data-table tr:hover {
+            background-color: #444;
+        }
+
+        #inventario-section .action-btn {
+            padding: 8px 15px;
+            font-size: 1em;
+        }
+
+        #productos-section,
+        #ventas-section,
+        #clientes-section,
+        #usuarios-section {
+            width: 800px;
+            height: auto;
+            min-height: 400px;
+            padding: 20px;
+        }
+
+        #productos-section .data-table,
+        #ventas-section .data-table,
+        #clientes-section .data-table,
+        #usuarios-section .data-table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #productos-section .data-table th,
+        #productos-section .data-table td,
+        #ventas-section .data-table th,
+        #ventas-section .data-table td,
+        #clientes-section .data-table th,
+        #clientes-section .data-table td,
+        #usuarios-section .data-table th,
+        #usuarios-section .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        #productos-section .data-table th,
+        #ventas-section .data-table th,
+        #clientes-section .data-table th,
+        #usuarios-section .data-table th {
+            background-color: var(--admin-primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        #productos-section .data-table tr:hover,
+        #ventas-section .data-table tr:hover,
+        #clientes-section .data-table tr:hover,
+        #usuarios-section .data-table tr:hover {
+            background-color: #444;
+        }
+
+        #productos-section .action-btn,
+        #ventas-section .action-btn,
+        #clientes-section .action-btn,
+        #usuarios-section .action-btn {
+            padding: 8px 15px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Panel Admin</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" data-section="productos"><i class="fas fa-box"></i> Productos</a></li>
+                <li><a href="#" data-section="inventario"><i class="fas fa-warehouse"></i> Inventario</a></li>
+                <li><a href="#" data-section="ventas"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
+                <li><a href="#" data-section="clientes"><i class="fas fa-users"></i> Clientes</a></li>
+                <li><a href="#" data-section="usuarios"><i class="fas fa-user-shield"></i> Usuarios</a></li>
+            </ul>
+        </div>
+
+        <div class="main-panel">
+            <div class="content-header">
+                <h1 class="content-title">Dashboard</h1>
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+            </div>
+
+            <div class="main-content">
+                <!-- Sección Dashboard -->
+                <div class="content-section" id="dashboard-section">
+                    <h2>Resumen General</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <h3>Total Ventas</h3>
+                            <p>CLP$ 1,234,567</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Productos</h3>
+                            <p>150</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Clientes</h3>
+                            <p>75</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pedidos Pendientes</h3>
+                            <p>12</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Productos -->
+                <div class="content-section" id="productos-section" style="display: none;">
+                    <h2>Gestión de Productos</h2>
+                    <button class="action-btn" onclick="showModal('productoModal')">Agregar Producto</button>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Resident Evil Village</td>
+                                <td>Terror</td>
+                                <td>CLP$ 42.000</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Dead Space</td>
+                                <td>Terror</td>
+                                <td>CLP$ 45.000</td>
+                                <td>12</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Outlast</td>
+                                <td>Terror</td>
+                                <td>CLP$ 35.000</td>
+                                <td>8</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>GTA V</td>
+                                <td>Acción</td>
+                                <td>CLP$ 35.000</td>
+                                <td>20</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Payday 3</td>
+                                <td>Acción</td>
+                                <td>CLP$ 40.000</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>The Witcher 3</td>
+                                <td>Mundo Abierto</td>
+                                <td>CLP$ 38.000</td>
+                                <td>12</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Assassin's Creed</td>
+                                <td>Mundo Abierto</td>
+                                <td>CLP$ 45.000</td>
+                                <td>18</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Forza Horizon 5</td>
+                                <td>Carreras</td>
+                                <td>CLP$ 46.000</td>
+                                <td>18</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>Gran Turismo 7</td>
+                                <td>Carreras</td>
+                                <td>CLP$ 48.000</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Need for Speed Heat</td>
+                                <td>Carreras</td>
+                                <td>CLP$ 42.000</td>
+                                <td>12</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>FIFA 24</td>
+                                <td>Deportes</td>
+                                <td>CLP$ 48.000</td>
+                                <td>25</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>eFootball 2024</td>
+                                <td>Deportes</td>
+                                <td>CLP$ 35.000</td>
+                                <td>20</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td>NBA 2K24</td>
+                                <td>Deportes</td>
+                                <td>CLP$ 45.000</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>Final Fantasy XVI</td>
+                                <td>Rol</td>
+                                <td>CLP$ 52.000</td>
+                                <td>10</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>Baldur's Gate 3</td>
+                                <td>Rol</td>
+                                <td>CLP$ 55.000</td>
+                                <td>8</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>Persona 5</td>
+                                <td>Rol</td>
+                                <td>CLP$ 45.000</td>
+                                <td>12</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>The Legend of Zelda</td>
+                                <td>Mundo Abierto</td>
+                                <td>CLP$ 58.000</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Sección Inventario -->
+                <div class="content-section" id="inventario-section" style="display: none;">
+                    <h2>Control de Inventario</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Stock Actual</th>
+                                <th>Stock Mínimo</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Resident Evil Village</td>
+                                <td>Terror</td>
+                                <td>15</td>
+                                <td>5</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dead Space</td>
+                                <td>Terror</td>
+                                <td>12</td>
+                                <td>4</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Outlast</td>
+                                <td>Terror</td>
+                                <td>8</td>
+                                <td>3</td>
+                                <td>Bajo Stock</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>GTA V</td>
+                                <td>Acción</td>
+                                <td>20</td>
+                                <td>8</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Payday 3</td>
+                                <td>Acción</td>
+                                <td>15</td>
+                                <td>6</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>The Witcher 3</td>
+                                <td>Mundo Abierto</td>
+                                <td>12</td>
+                                <td>5</td>
+                                <td>Bajo Stock</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Assassin's Creed</td>
+                                <td>Mundo Abierto</td>
+                                <td>18</td>
+                                <td>6</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Forza Horizon 5</td>
+                                <td>Carreras</td>
+                                <td>18</td>
+                                <td>6</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gran Turismo 7</td>
+                                <td>Carreras</td>
+                                <td>15</td>
+                                <td>5</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Need for Speed Heat</td>
+                                <td>Carreras</td>
+                                <td>12</td>
+                                <td>4</td>
+                                <td>Bajo Stock</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>FIFA 24</td>
+                                <td>Deportes</td>
+                                <td>25</td>
+                                <td>10</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>eFootball 2024</td>
+                                <td>Deportes</td>
+                                <td>20</td>
+                                <td>8</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>NBA 2K24</td>
+                                <td>Deportes</td>
+                                <td>15</td>
+                                <td>6</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Final Fantasy XVI</td>
+                                <td>Rol</td>
+                                <td>10</td>
+                                <td>4</td>
+                                <td>Bajo Stock</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Baldur's Gate 3</td>
+                                <td>Rol</td>
+                                <td>8</td>
+                                <td>3</td>
+                                <td>Bajo Stock</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Persona 5</td>
+                                <td>Rol</td>
+                                <td>12</td>
+                                <td>5</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>The Legend of Zelda</td>
+                                <td>Mundo Abierto</td>
+                                <td>15</td>
+                                <td>5</td>
+                                <td>Normal</td>
+                                <td>
+                                    <button class="action-btn">Ajustar Stock</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Sección Ventas -->
+                <div class="content-section" id="ventas-section" style="display: none;">
+                    <h2>Historial de Ventas</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Venta</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>V001</td>
+                                <td>Juan Pérez</td>
+                                <td>2024-02-20</td>
+                                <td>CLP$ 59,990</td>
+                                <td>Completado</td>
+                                <td>
+                                    <button class="action-btn">Ver Detalles</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Sección Clientes -->
+                <div class="content-section" id="clientes-section" style="display: none;">
+                    <h2>Gestión de Clientes</h2>
+                    <button class="action-btn" onclick="showModal('clienteModal')">Agregar Cliente</button>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Juan Pérez</td>
+                                <td>juan@email.com</td>
+                                <td>+56912345678</td>
+                                <td>
+                                    <button class="action-btn" onclick="window.location.href='editar-cliente.html?id=1'">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Sección Usuarios -->
+                <div class="content-section" id="usuarios-section" style="display: none;">
+                    <h2>Gestión de Usuarios</h2>
+                    <button class="action-btn" onclick="showModal('usuarioModal')">Agregar Usuario</button>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>admin</td>
+                                <td>Administrador</td>
+                                <td>Activo</td>
+                                <td>
+                                    <button class="action-btn">Editar</button>
+                                    <button class="action-btn">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Producto -->
+    <div id="productoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('productoModal')">&times;</span>
+            <h2>Agregar/Editar Producto</h2>
+            <form id="productoForm">
+                <div class="form-group">
+                    <label for="nombreProducto">Nombre del Producto</label>
+                    <input type="text" id="nombreProducto" required>
+                </div>
+                <div class="form-group">
+                    <label for="precioProducto">Precio</label>
+                    <input type="number" id="precioProducto" required>
+                </div>
+                <div class="form-group">
+                    <label for="stockProducto">Stock</label>
+                    <input type="number" id="stockProducto" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcionProducto">Descripción</label>
+                    <textarea id="descripcionProducto" required></textarea>
+                </div>
+                <button type="submit" class="action-btn">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navegación entre secciones
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                
+                // Actualizar clase activa
+                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Mostrar sección correspondiente
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                document.getElementById(`${section}-section`).style.display = 'block';
+                
+                // Actualizar título
+                document.querySelector('.content-title').textContent = this.textContent.trim();
+            });
+        });
+
+        // Funciones para modales
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Función de logout
+        function logout() {
+            if (confirm('¿Está seguro que desea cerrar sesión?')) {
+                window.location.href = 'admin.html';
+            }
+        }
+
+        // Manejo de formularios
+        document.getElementById('productoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aquí irá la lógica para guardar el producto
+            alert('Producto guardado exitosamente');
+            closeModal('productoModal');
+        });
+    </script>
+</body>
+
+</html> 

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - SEVENGAMER</title>
+    <link rel="icon" href="media/control4.png" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/pago.css">
+</head>
+
+<!-- ENCABEZADO -->
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="index.html" style="text-decoration: none;">
+                    <p class="logo">SEVENGAMER</p>
+                </a>
+                <p class="slogan">Juegos de un verdadero gamer</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="payment-container">
+        <h1>Finalizar Compra</h1>
+        
+        <div class="payment-layout">
+            <div class="cart-section">
+                <div class="cart-summary" id="cartSummary">
+                    <!-- Los items del carrito se cargarán aquí dinámicamente -->
+                </div>
+
+                <div class="total-section">
+                    <div id="totalAmount"></div>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <form class="payment-form" id="paymentForm" novalidate>
+                    <div class="form-group">
+                        <label for="cardType">Tipo de tarjeta</label>
+                        <select id="cardType" required>
+                            <option value="" disabled selected>Selecciona el tipo de tarjeta</option>
+                            <option value="debito">Tarjeta débito</option>
+                            <option value="credito">Tarjeta crédito</option>
+                            <option value="prepago">Tarjeta prepago</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardName">Nombre en la tarjeta</label>
+                        <input type="text" id="cardName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardNumber">Número de tarjeta</label>
+                        <input type="text" id="cardNumber" required maxlength="19" placeholder="1234 5678 9012 3456">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expiryDate">Fecha de vencimiento</label>
+                        <input type="text" id="expiryDate" required maxlength="5" placeholder="MM/YY">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" required maxlength="3" placeholder="123">
+                    </div>
+
+                    <div class="payment-buttons">
+                        <button type="button" class="cancel-btn" onclick="window.history.back()">Cancelar</button>
+                        <button type="submit" class="confirm-btn">Confirmar Pago</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de éxito -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="media/check.png" alt="Éxito" class="success-icon">
+                <h2>¡Pago Exitoso!</h2>
+            </div>
+            <p>Tu pago ha sido procesado correctamente.</p>
+            <button class="confirm-btn" onclick="volverAlInicio()">Volver al inicio</button>
+        </div>
+    </div>
+
+    <script src="js/pago.js"></script>
+</body>
+</html>

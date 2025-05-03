@@ -1,0 +1,920 @@
+/* Estilos Generales */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Tipografía */
+h1, h2, h3, .logo {
+    font-family: 'Orbitron', sans-serif;
+}
+
+h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+h2 {
+    font-size: 2.7em;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+
+h3 {
+    font-size: 2em;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Botones */
+button {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 2px solid rgb(1, 1, 3);
+    box-shadow: 2px 2px 10px rgb(1, 1, 3);
+    color: lightblue;
+    background-color: blueviolet;
+}
+
+button:hover {
+    background-color: rgb(55, 105, 184);
+}
+
+/* Contenedor Principal */
+.container {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos del Encabezado */
+header {
+    background-color: rgba(26, 26, 26, 0.7);
+    background-image: url('../media/gamer.webp');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    padding: 2rem 0;
+    margin-bottom: 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    height: 180px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    color: white;
+    text-align: left;
+    padding-left: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #fff, #7ee1ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 10px rgba(0, 123, 255, 0.3);
+}
+
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.05);
+}
+
+.logo-link:active {
+    transform: scale(0.95);
+}
+
+.slogan {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 10px 0 0;
+    color: #ffffff;
+    opacity: 0.9;
+    letter-spacing: 2px;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+    justify-content: flex-end;
+    padding-right: 40px;
+    margin-left: auto;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    padding: 12px 25px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 1px;
+}
+
+nav a:hover {
+    color: #007bff;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Estructura Principal */
+.main-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: calc(100vh - 80px);
+    margin-top: 80px;
+}
+
+/* Contenido Principal */
+.contenido-principal {
+    background-color: rgb(26, 25, 27);
+    padding: 0;
+    min-height: calc(100vh - 80px);
+}
+
+/* Estilos para la barra de búsqueda */
+.search-box {
+    margin-bottom: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-box button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Grid de Categorías */
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 200px);
+    gap: 0;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+}
+
+/* Botones de Categoría */
+.categoria-btn {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.categoria-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.7)
+    );
+    transition: background 0.3s ease;
+}
+
+.categoria-btn:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.categoria-btn:hover::before {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.8)
+    );
+}
+
+.categoria-texto {
+    position: relative;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* Tarjetas de Categoría */
+.categoria-card {
+    position: relative;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.categoria-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.categoria-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 60%,
+        transparent 100%
+    );
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.categoria-card:hover .categoria-overlay {
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.6) 60%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+}
+
+.categoria-overlay h3 {
+    margin: 0;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Categorías Container */
+.categorias-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* Menú de Categorías */
+.menu-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.categoria-btn {
+    padding: 12px 24px;
+    font-size: 1.1em;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgb(220, 226, 229);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.categoria-btn:hover, .categoria-btn.activo {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Preview de Categoría */
+.categoria-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.categoria-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.categoria-descripcion {
+    color: rgb(220, 226, 229);
+}
+
+.categoria-descripcion h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.8em;
+}
+
+.categoria-descripcion p {
+    margin: 0;
+    font-size: 1.1em;
+    color: rgba(220, 226, 229, 0.8);
+}
+
+/* Cuadrícula de Juegos */
+.juegos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* Estilos para la lista de juegos */
+.juegos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.juego-card {
+    display: flex;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.juego-card img {
+    width: 200px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.juego-info {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.juego-info h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.precio {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #007bff;
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.ver-detalles {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    padding: 8px 0;
+}
+
+.ver-detalles:hover {
+    text-decoration: underline;
+}
+
+/* Botón de Inicio de Sesión */
+.login-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.login-button:hover {
+    background-color: #2980b9;
+}
+
+/* Sección de Juegos */
+#juegos {
+    background-color: rgb(26, 25, 27);
+    color: rgb(220, 226, 229);
+    padding: 20px;
+}
+
+#juegos .container {
+    padding: 50px 12px;
+}
+
+#juegos h2 {
+    margin-top: 0;
+}
+
+/* Categorías Especiales */
+.categoria:first-child {
+    background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+    ), url("../media/terror.jpg");
+}
+
+/* Estilos del contenido principal */
+.content-container {
+    margin-top: 180px;
+    min-height: calc(100vh - 180px);
+}
+
+/* Estilos para el sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 180px;
+    bottom: 0;
+    width: 280px;
+    padding: 0;
+    background-color: #1a1a1a;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    height: calc(100vh - 180px);
+}
+
+.sidebar h2 {
+    margin: 0;
+    padding: 10px 20px;
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.categoria-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.categoria-lista li {
+    margin: 0;
+    padding: 0;
+}
+
+.categoria-lista li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.3s ease;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.categoria-lista li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.7)
+    );
+    transition: background 0.3s ease;
+}
+
+.categoria-lista li a:hover::before {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.9)
+    );
+}
+
+.categoria-lista li a span {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0 15px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1.5px;
+}
+
+.categoria-lista li a:hover {
+    transform: scale(1.05);
+}
+
+.categoria-lista li a.active {
+    border-left: 4px solid #007bff;
+}
+
+/* Imágenes de fondo para los botones de categoría */
+/* Página principal (index.html) */
+body:not(.categorias-page) .categoria-lista li a[href="index.html"] {
+    background-image: url('../media/todos.jpg');
+}
+
+body:not(.categorias-page) .categoria-lista li a[href="categorias/terror.html"] {
+    background-image: url('../media/terror.jpg');
+}
+
+body:not(.categorias-page) .categoria-lista li a[href="categorias/mundo-abierto.html"] {
+    background-image: url('../media/mundo-abierto.jpg');
+}
+
+body:not(.categorias-page) .categoria-lista li a[href="categorias/accion.html"] {
+    background-image: url('../media/accion.jpg');
+}
+
+body:not(.categorias-page) .categoria-lista li a[href="categorias/carreras.html"] {
+    background-image: url('../media/carreras.jpg');
+}
+
+body:not(.categorias-page) .categoria-lista li a[href="categorias/deportes.html"] {
+    background-image: url('../media/deporte.jpg');
+}
+
+body:not(.categorias-page) .categoria-lista li a[href="categorias/rol.html"] {
+    background-image: url('../media/rol.jpg');
+}
+
+/* Páginas de categorías */
+.categorias-page .categoria-lista li a[href="../index.html"] {
+    background-image: url('../media/todos.jpg');
+}
+
+.categorias-page .categoria-lista li a[href="terror.html"] {
+    background-image: url('../media/terror.jpg');
+}
+
+.categorias-page .categoria-lista li a[href="mundo-abierto.html"] {
+    background-image: url('../media/mundo-abierto.jpg');
+}
+
+.categorias-page .categoria-lista li a[href="accion.html"] {
+    background-image: url('../media/accion.jpg');
+}
+
+.categorias-page .categoria-lista li a[href="carreras.html"] {
+    background-image: url('../media/carreras.jpg');
+}
+
+.categorias-page .categoria-lista li a[href="deportes.html"] {
+    background-image: url('../media/deporte.jpg');
+}
+
+.categorias-page .categoria-lista li a[href="rol.html"] {
+    background-image: url('../media/rol.jpg');
+}
+
+/* Ajuste del contenido principal */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    margin-top: 0;
+}
+
+.main-content h1 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.carrito-icon {
+    position: relative;
+    padding: 8px 15px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.carrito-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.carrito-contador {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    background: #00ff88;
+    color: #000;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.carrito-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para el modal del carrito */
+.carrito-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 20px;
+    color: #fff;
+}
+
+.carrito-modal.activo {
+    display: flex;
+    flex-direction: column;
+}
+
+.carrito-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.carrito-header h2 {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    color: #00ff88;
+}
+
+.cerrar-carrito {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.cerrar-carrito:hover {
+    color: #00ff88;
+}
+
+.carrito-items {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 180px;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+.carrito-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+.item-details h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.item-price {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+.cantidad-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.cantidad-controls button {
+    background: #00ff88;
+    color: #000;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cantidad-controls button:hover {
+    background: #00cc6a;
+}
+
+.cantidad-controls span {
+    min-width: 30px;
+    text-align: center;
+}
+
+.carrito-total {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 400px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1001;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total-row.final {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #00ff88;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 12px;
+    background: #00ff88;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.checkout-btn:hover {
+    background: #00cc6a;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+    .carrito-modal {
+        width: 100%;
+    }
+}
+
+.agregar-carrito {
+    background-color: #00ff88;
+    color: #000;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.agregar-carrito:hover {
+    background-color: #00cc6a;
+    transform: translateY(-2px);
+}
+
+.agregar-carrito:active {
+    transform: translateY(0);
+}
+
+.detalles-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.mensaje-exito {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #00ff88;
+    color: #000;
+    padding: 15px 25px;
+    border-radius: 5px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,55 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Directorios del sistema
+AppData/
+Local/
+Temp/
+Temporary Internet Files/
+
+# Archivos de configuración
+.vscode/
+.idea/
+*.config
+
+# Archivos de base de datos
+*.sql
+*.sqlite
+
+# Archivos de caché
+.cache/
+.npm/
+.yarn/
+
+# Archivos de compilación
+dist/
+build/
+*.pyc
+__pycache__/
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos de registro
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db 

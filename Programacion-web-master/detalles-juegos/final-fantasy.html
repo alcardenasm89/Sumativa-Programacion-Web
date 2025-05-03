@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Final Fantasy XVI - SEVENGAMER</title>
+    <link rel="icon" href="../media/control4.png" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/detalles.css">
+</head>
+
+<!-- ENCABEZADO -->
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="../index.html" class="logo-link">
+                    <p class="logo">SEVENGAMER</p>
+                </a>
+                <p class="slogan">Juegos de un verdadero gamer</p>
+            </div>
+            <nav>
+                <a href="../login.html" class="tu-clase-de-estilo">Iniciar Sesión</a>
+                <a href="#" class="carrito-icon" id="carritoBtn">
+                    <img src="../media/carrito-compras.png" alt="Carrito de compras" class="carrito-img">
+                    <span id="contador-carrito">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <!-- MENÚ LATERAL DE CATEGORÍAS -->
+        <aside class="sidebar">
+            <h2>Categorías</h2>
+            <ul class="categoria-lista">
+                <li><a href="../index.html"><span>Todos</span></a></li>
+                <li><a href="../categorias/terror.html"><span>Terror</span></a></li>
+                <li><a href="../categorias/mundo-abierto.html"><span>Mundo abierto</span></a></li>
+                <li><a href="../categorias/accion.html"><span>Acción</span></a></li>
+                <li><a href="../categorias/carreras.html"><span>Carreras</span></a></li>
+                <li><a href="../categorias/deportes.html"><span>Deportes</span></a></li>
+                <li><a href="../categorias/rol.html" class="active"><span>Rol</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL DEL JUEGO -->
+        <main class="main-content">
+            <div class="detalle-juego">
+                <img src="../media/finalfantasy.jpg" alt="Final Fantasy XVI" class="imagen-principal">
+                <div class="info-juego">
+                    <h1 class="titulo-juego">Final Fantasy XVI</h1>
+                    <p class="descripcion">
+                        Embárcate en una épica aventura en el mundo de Valisthea, donde los cristales madre bendicen la tierra con su poder. Como Clive Rosfield, el primer escudo de Rosaria, deberás enfrentarte a tu destino y luchar por la supervivencia de tu mundo en esta nueva entrega de la aclamada serie Final Fantasy.
+                    </p>
+                    <div class="precio-container">
+                        <span class="precio">CLP$ 52.000</span>
+                        <button class="btn-carrito" onclick="agregarAlCarrito('ff16', 'Final Fantasy XVI', 52000, '../media/finalfantasy.jpg')">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal del Carrito -->
+    <div class="carrito-modal" id="carritoModal">
+        <div class="carrito-header">
+            <h2>Carrito de Compras</h2>
+            <button class="cerrar-carrito" onclick="cerrarCarrito()">&times;</button>
+        </div>
+        <div class="carrito-items" id="carritoItems">
+            <!-- Los items del carrito se agregarán aquí dinámicamente -->
+        </div>
+        <div class="carrito-total">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">CLP$ 0</span>
+            </div>
+            <div class="total-row">
+                <span>IVA (19%):</span>
+                <span id="iva">CLP$ 0</span>
+            </div>
+            <div class="total-row final">
+                <span>Total:</span>
+                <span id="total">CLP$ 0</span>
+            </div>
+            <button class="checkout-btn" onclick="procederPago()">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <script src="../js/carrito.js"></script>
+</body>
+</html> 
