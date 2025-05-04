@@ -1,0 +1,7 @@
+Por favor, reemplaza este archivo con una imagen llamada 'placeholder.jpg' que servirá como imagen por defecto para los videojuegos.
+
+La imagen debe ser:
+- Formato: JPG
+- Tamaño recomendado: 300x400 píxeles
+- Debe ser una imagen genérica de videojuego o un placeholder visual atractivo
+- Nombre del archivo: placeholder.jpg 

@@ -1,0 +1,18 @@
+{% load static %}
+<aside class="sidebar">
+    <h2>Categorías</h2>
+    <ul class="categoria-lista">
+        <li>
+            <a href="{% url 'index' %}" class="categoria-tarjeta" style="background-image: url({% static 'tienda/img/categorias/todos.png' %});">
+                Todos
+            </a>
+        </li>
+        {% for cat in categorias %}
+        <li>
+            <a href="{% url 'categoria_detalle' slug=cat.slug %}" class="categoria-tarjeta {% if categoria.slug == cat.slug %}active{% endif %}" style="background-image: url({{ cat.imagen.url }});">
+                {{ cat.nombre }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</aside> 

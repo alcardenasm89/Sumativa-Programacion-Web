@@ -1,0 +1,609 @@
+/* Estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* Header y navegación */
+header {
+    display: flex;
+    flex-direction: column;
+    background: #1a1a1a url('../img/gamer.webp') center center/cover no-repeat;
+    padding: 1.2rem 0 1.2rem 0;
+    border-bottom: 2px solid #ff6b6b;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    min-height: 90px;
+    width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .container.logo-container {
+    width: 100%;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 2;
+    margin-left: 0;
+    padding-left: 4rem;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    margin-right: 1.5rem;
+    vertical-align: middle;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 8px #000, 0 0 10px #000;
+    text-decoration: none;
+    letter-spacing: 2px;
+    vertical-align: middle;
+    margin-bottom: 0.2rem;
+    align-self: flex-start;
+    transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
+    cursor: pointer;
+}
+
+.logo:hover {
+    color: #ff6b6b;
+    transform: scale(1.07) rotate(-2deg);
+    text-shadow: 0 0 16px #ff6b6b, 2px 2px 8px #000;
+}
+
+.slogan {
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 1px 1px 6px #000, 0 0 8px #000;
+    vertical-align: middle;
+    margin-left: 0;
+    align-self: flex-start;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+    padding-right: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    background: rgba(0,0,0,0.35);
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    background: rgba(255,107,107,0.85);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(255,107,107,0.18);
+}
+
+.carrito-icon {
+    margin-left: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.carrito-img {
+    width: 30px;
+    height: 30px;
+    filter: invert(1);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.carrito-img:hover {
+    transform: scale(1.1);
+}
+
+#contador-carrito {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Contenedor principal */
+.content-container {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+/* Sidebar de categorías */
+.sidebar {
+    width: 300px;
+    min-width: 250px;
+    max-width: 350px;
+    background-color: #fff;
+    padding: 1.5rem 1.2rem 1.5rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: fit-content;
+    position: sticky;
+    top: 90px;
+    margin-left: 0;
+    z-index: 10;
+}
+
+.sidebar h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+    border-bottom: 2px solid #ff6b6b;
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+.categoria-lista {
+    list-style: none;
+}
+
+.categoria-lista li {
+    margin-bottom: 0.5rem;
+}
+
+.icono-categoria {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    margin-right: 0.7rem;
+    vertical-align: middle;
+    transition: filter 0.2s;
+    display: inline-block;
+    max-height: 1.5em;
+}
+
+.categoria-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    background-color: #f8f8f8;
+    gap: 0.5rem;
+}
+
+.categoria-link:hover,
+.categoria-link.active {
+    background-color: #ff6b6b;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.main-content h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+    border-bottom: 2px solid #ff6b6b;
+    padding-bottom: 0.5rem;
+}
+
+/* Barra de búsqueda */
+.search-box {
+    display: flex;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-box button {
+    padding: 0.8rem 1.5rem;
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-box button:hover {
+    background-color: #ff5252;
+}
+
+/* Lista de juegos */
+.juegos-lista {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem;
+}
+
+.juego-card,
+.juego-card.horizontal {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    gap: 0 !important;
+}
+
+.juego-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.juego-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.juego-card img {
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.juego-card:hover img {
+    transform: scale(1.05);
+}
+
+.juego-info {
+    padding: 1.5rem !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.juego-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+}
+
+.precio {
+    font-size: 1.1rem;
+    color: #ff6b6b;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.detalles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.ver-detalles {
+    display: block;
+    text-align: center;
+    padding: 0.8rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.ver-detalles:hover {
+    background-color: #ff6b6b;
+}
+
+.agregar-carrito {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.agregar-carrito:hover {
+    background-color: #ff6b6b;
+}
+
+/* Modal del carrito */
+.carrito-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.carrito-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.carrito-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #1a1a1a;
+}
+
+.cerrar-carrito {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.cerrar-carrito:hover {
+    color: #ff6b6b;
+}
+
+.carrito-items {
+    margin-bottom: 1.5rem;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+}
+
+.carrito-total {
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.total-row.final {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+    background-color: #ff5252;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .content-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 2rem;
+    }
+
+    .carrito-modal {
+        width: 100%;
+    }
+
+    .juegos-lista {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 3rem;
+    border-top: 2px solid #ff6b6b;
+}
+
+/* Tarjeta de juego horizontal */
+.juego-card.horizontal {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 2rem !important;
+    gap: 2.5rem !important;
+    min-height: 220px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+.juego-card.horizontal img {
+    width: 320px !important;
+    height: 180px !important;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    flex-shrink: 0;
+}
+.juego-card.horizontal .juego-info {
+    flex: 1;
+    padding: 0 1.5rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1.2rem;
+    min-width: 0;
+}
+.juego-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    word-break: break-word;
+}
+.precio-clp {
+    color: #0074ff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    word-break: break-word;
+}
+.detalles-container-horizontal {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 1.5rem !important;
+    align-items: center !important;
+    margin-top: 1rem;
+    justify-content: flex-start;
+}
+.btn-azul {
+    background: #0074ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 6px rgba(0,116,255,0.10);
+    text-decoration: none;
+    text-align: center;
+}
+.btn-azul:hover {
+    background: #005bb5;
+}
+.btn-verde {
+    background: #00e676;
+    color: #111;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 6px rgba(0,230,118,0.10);
+    text-align: center;
+}
+.btn-verde:hover {
+    background: #00c853;
+}
+
+.categoria-tarjeta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px #000, 0 0 10px #000;
+    margin-bottom: 0.7rem;
+    transition: filter 0.2s, transform 0.2s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+.categoria-tarjeta:hover,
+.categoria-tarjeta.active {
+    filter: brightness(1.15) drop-shadow(0 0 8px #ff6b6b88);
+    transform: scale(1.03);
+} 

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tienda de Videojuegos{% endblock %}</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'tienda/media/control4.png' %}" type="png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'tienda/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="/" class="logo">SEVENGAMER</a>
+            <span class="slogan">Juegos de un verdadero gamer</span>
+        </div>
+        <nav>
+            <div class="nav-links">
+                <a href="{% url 'index' %}">Inicio</a>
+                <a href="{% url 'login' %}">Iniciar Sesión</a>
+                <a href="{% url 'registro' %}">Registrarse</a>
+            </div>
+            <a href="#" class="carrito-icon" id="carritoBtn">
+                <img src="{% static 'tienda/media/carrito-compras.png' %}" alt="Carrito de compras" class="carrito-img">
+                <span id="contador-carrito">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SEVENGAMER. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Modal Carrito de Compras -->
+    <div id="carritoModal" class="carrito-modal" style="display:none;">
+        <div class="carrito-header">
+            <h2>Carrito de Compras</h2>
+            <button class="cerrar-carrito" onclick="cerrarCarrito()">&times;</button>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #444; margin: 0 0 1rem 0;">
+        <div class="carrito-items" id="carritoItems"></div>
+        <div class="carrito-total-box">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">CLP$ 0</span>
+            </div>
+            <div class="total-row">
+                <span>IVA (19%):</span>
+                <span id="iva">CLP$ 0</span>
+            </div>
+            <div class="total-row final">
+                <span style="font-weight:bold; color:#00ffb3; font-size:1.2em;">Total:</span>
+                <span id="total" style="font-weight:bold; color:#00ffb3; font-size:1.2em;">CLP$ 0</span>
+            </div>
+            <button class="checkout-btn" onclick="procederPago()">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <style>
+    .carrito-modal {
+        position: fixed;
+        top: 0; right: 0;
+        width: 100%;
+        max-width: 420px;
+        height: 100vh;
+        background: rgba(10, 10, 20, 0.98);
+        box-shadow: -4px 0 32px #00ffb355;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        padding: 0 0 1.5rem 0;
+        transition: right 0.3s;
+    }
+    .carrito-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2rem 2rem 0.5rem 2rem;
+    }
+    .carrito-header h2 {
+        font-family: 'Orbitron', Arial, sans-serif;
+        color: #00ffb3;
+        font-size: 2.3rem;
+        margin: 0;
+    }
+    .cerrar-carrito {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 2rem;
+        cursor: pointer;
+        margin-left: 1rem;
+    }
+    .carrito-items {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 2rem;
+        margin-bottom: 1rem;
+    }
+    .carrito-item {
+        display: flex;
+        align-items: center;
+        background: #23234a;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        padding: 0.7rem 1rem;
+        color: #fff;
+        box-shadow: 0 2px 8px #0002;
+    }
+    .carrito-item-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 1rem;
+    }
+    .carrito-item-info {
+        flex: 1;
+    }
+    .carrito-item-titulo {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #00eaff;
+    }
+    .carrito-item-precio {
+        color: #00ffb3;
+        font-size: 1rem;
+        margin-top: 0.2rem;
+    }
+    .carrito-item-cantidad {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    .carrito-cantidad-btn {
+        background: #00ffb3;
+        color: #222;
+        border: none;
+        border-radius: 6px;
+        width: 28px;
+        height: 28px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .carrito-cantidad-btn:hover {
+        background: #00eaff;
+    }
+    .carrito-item-eliminar {
+        background: none;
+        border: none;
+        color: #e74c3c;
+        font-size: 1.3rem;
+        margin-left: 1rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .carrito-item-eliminar:hover {
+        color: #ff1744;
+    }
+    .carrito-total-box {
+        background: #181828;
+        border-radius: 12px;
+        margin: 0 1.5rem;
+        padding: 1.2rem 1.2rem 1.5rem 1.2rem;
+        box-shadow: 0 2px 8px #0002;
+    }
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.7rem;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+    .total-row.final {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00ffb3;
+        margin-bottom: 1.2rem;
+    }
+    .checkout-btn {
+        width: 100%;
+        background: #00ffb3;
+        color: #222;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        padding: 1rem 0;
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+        box-shadow: 0 2px 8px #00ffb355;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .checkout-btn:hover {
+        background: #00eaff;
+        color: #111;
+    }
+    @media (max-width: 600px) {
+        .carrito-modal {
+            max-width: 100vw;
+            padding: 0 0 1.5rem 0;
+        }
+        .carrito-header, .carrito-items, .carrito-total-box {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+    </style>
+
+    <script src="{% static 'tienda/js/carrito.js' %}"></script>
+</body>
+</html> 

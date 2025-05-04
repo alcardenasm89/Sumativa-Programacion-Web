@@ -1,0 +1,231 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+body {
+    background: linear-gradient(135deg, #1a2236 0%, #3a1c71 100%);
+    font-family: 'Orbitron', 'Rajdhani', Arial, sans-serif;
+}
+.content-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+.form-box {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 2rem auto;
+    color: #fff;
+    text-align: center;
+    position: relative;
+}
+.form-box h2 {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    text-shadow: 0 0 16px #00eaff99;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.form-group label {
+    font-size: 1.1rem;
+    color: #b0b8d1;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    border: none;
+    background: #23234a;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-top: 0.2rem;
+    box-shadow: 0 2px 8px #0002;
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+    box-shadow: 0 0 0 2px #00eaff99;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #b0b8d1;
+}
+.checkmark {
+    margin-right: 0.5rem;
+}
+.forgot-password {
+    color: #00eaff;
+    font-size: 1rem;
+    margin-left: 2rem;
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+.forgot-password:hover {
+    color: #00ffb3;
+}
+.button-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+.submit-btn {
+    background: #00ffb3;
+    color: #222;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem 2.2rem;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px #00ffb355;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background: #00eaff;
+    color: #111;
+}
+.reset-btn {
+    background: #44445a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem 2.2rem;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px #0002;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.reset-btn:hover {
+    background: #6666a0;
+}
+.register-link {
+    color: #b0b8d1;
+    font-size: 1rem;
+    margin-top: 0.7rem;
+}
+.register-link a {
+    color: #00ffb3;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.register-link a:hover {
+    color: #00eaff;
+}
+.alert-danger {
+    font-size: 1.1rem;
+}
+.password-group {
+    position: relative;
+}
+.password-group input[type="password"],
+.password-group input[type="text"] {
+    padding-right: 44px; /* espacio para el icono */
+}
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #b0b8d1;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.password-toggle:active {
+    color: #00eaff;
+}
+@media (max-width: 500px) {
+    .form-group[style] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .forgot-password {
+        margin-left: 0 !important;
+        margin-top: 0.5rem;
+    }
+}
+</style>
+<div class="content-container">
+    <div class="form-box">
+        <h2>Iniciar Sesión</h2>
+        {% if error %}
+            <div class="alert alert-danger" style="color: #fff; background: #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 1rem;">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group password-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="button" class="password-toggle" onclick="togglePassword()">
+                    <span id="toggleIcon" class="fa fa-eye"></span>
+                </button>
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+                <label class="checkbox-container" style="margin: 0;">
+                    <input type="checkbox" id="remember-me" name="remember-me">
+                    <span class="checkmark"></span>
+                    Recordarme
+                </label>
+                <a href="{% url 'recuperar-password' %}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="submit-btn">Iniciar Sesión</button>
+                <button type="reset" class="reset-btn">Limpiar</button>
+            </div>
+            <p class="register-link">¿No tienes una cuenta? <a href="{% url 'registro' %}">Regístrate</a></p>
+            <p class="register-link">O</p>
+            <p class="register-link"><a href="{% url 'index' %}">Comprar como invitado</a></p>
+        </form>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<script>
+function togglePassword() {
+    const input = document.getElementById('password');
+    const icon = document.getElementById('toggleIcon');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+</script>
+{% endblock %}

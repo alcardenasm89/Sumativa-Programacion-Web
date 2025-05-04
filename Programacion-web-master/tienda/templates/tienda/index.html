@@ -1,0 +1,71 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Inicio - SEVENGAMER{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    {% include 'tienda/sidebar.html' %}
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <h1>Juegos Destacados</h1>
+        <!-- Barra de búsqueda -->
+        <div class="search-box" style="display: flex; align-items: center; gap: 1rem;">
+            <input type="text" class="form-control" style="font-size: 1.3rem; padding: 1rem; border-radius: 8px; flex: 1;" placeholder="Buscar juegos...">
+            <button type="submit" style="background: #2196f3; border: none; border-radius: 10px; box-shadow: 2px 2px 8px #888; padding: 0.7rem 1.2rem;">
+                <img src="{% static 'tienda/media/lupa.png' %}" alt="Buscar" style="width: 32px; height: 32px;">
+            </button>
+        </div>
+        <!-- Lista de juegos -->
+        <div class="juegos-lista">
+            {% for juego in juegos %}
+            <div class="juego-card horizontal">
+                {% if juego.imagen %}
+                    <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" class="juego-imagen">
+                {% else %}
+                    <img src="{% static 'tienda/img/placeholder.jpg' %}" alt="Sin imagen" class="juego-imagen">
+                {% endif %}
+                <div class="juego-info">
+                    <h3>{{ juego.titulo }}</h3>
+                    <p class="precio-clp">CLP$ {{ juego.precio|intcomma }}</p>
+                    <div class="detalles-container-horizontal">
+                        <a href="#" class="ver-detalles btn-azul">Ver Detalles</a>
+                        <button class="agregar-carrito btn-verde" data-id="{{ juego.id }}" data-titulo="{{ juego.titulo }}" data-precio="{{ juego.precio }}">
+                            Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No hay juegos disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+
+<!-- Modal del carrito -->
+<div class="carrito-modal" id="carritoModal">
+    <div class="carrito-header">
+        <h2>Carrito de Compras</h2>
+        <button class="cerrar-carrito" onclick="cerrarCarrito()">&times;</button>
+    </div>
+    <div class="carrito-items" id="carritoItems">
+        <!-- Los items del carrito se agregarán aquí dinámicamente -->
+    </div>
+    <div class="carrito-total">
+        <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="subtotal">$0</span>
+        </div>
+        <div class="total-row">
+            <span>IVA (19%):</span>
+            <span id="iva">$0</span>
+        </div>
+        <div class="total-row final">
+            <span>Total:</span>
+            <span id="total">$0</span>
+        </div>
+        <button class="checkout-btn">Proceder al pago</button>
+    </div>
+</div>
+{% endblock %}
