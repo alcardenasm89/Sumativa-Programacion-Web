@@ -1,15 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Videojuego, Categoria
+from .models import Videojuego, Categoria, Comentario
 from django.core.files import File
 import os
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 from tienda.models import Cliente
 from django.db import IntegrityError
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # Tasa de conversión USD a CLP (aproximada)
 TASA_CAMBIO = 1000
@@ -112,3 +114,25 @@ def pago(request):
 
 def recuperar_password(request):
     return render(request, 'tienda/recuperar-password.html')
+
+def detalle_juego(request, juego_id):
+    juego = get_object_or_404(Videojuego, id=juego_id)
+    comentarios = Comentario.objects.filter(videojuego=juego).order_by('-fecha_creacion')
+    return render(request, 'tienda/detalle_juego.html', {
+        'juego': juego,
+        'comentarios': comentarios
+    })
+
+@login_required
+@require_POST
+def agregar_comentario(request, juego_id):
+    juego = get_object_or_404(Videojuego, id=juego_id)
+    texto = request.POST.get('texto')
+    if texto:
+        Comentario.objects.create(
+            usuario=request.user,
+            videojuego=juego,
+            texto=texto
+        )
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'El comentario no puede estar vacío'}, status=400)
