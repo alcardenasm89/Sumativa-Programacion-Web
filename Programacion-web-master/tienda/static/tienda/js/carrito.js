@@ -10,12 +10,12 @@ const totalSpan = document.getElementById('total');
 
 // Funciones del carrito
 function abrirCarrito() {
-    carritoModal.style.display = 'block';
+    carritoModal.classList.add('activo');
     actualizarContenidoCarrito();
 }
 
 function cerrarCarrito() {
-    carritoModal.style.display = 'none';
+    carritoModal.classList.remove('activo');
 }
 
 function guardarCarrito() {
@@ -51,7 +51,7 @@ function agregarAlCarrito(id, titulo, precio, imagen) {
     alert('¡Producto agregado al carrito!');
     
     // Actualizar el contenido del carrito si está abierto
-    if (carritoModal && carritoModal.style.display === 'block') {
+    if (carritoModal && carritoModal.classList.contains('activo')) {
         actualizarContenidoCarrito();
     }
 }
