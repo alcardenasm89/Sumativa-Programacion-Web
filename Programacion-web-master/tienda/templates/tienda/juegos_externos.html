@@ -1,0 +1,10 @@
+<h2>Juegos populares (RAWG API)</h2>
+<ul>
+  {% for juego in juegos %}
+    <li>
+      <strong>{{ juego.name }}</strong> - Rating: {{ juego.rating }}<br>
+      {% if juego.background_image %}
+        <img src="{{ juego.background_image }}" width="200">
+      {% endif %}
+    </li>
+  {% endfor %} 
