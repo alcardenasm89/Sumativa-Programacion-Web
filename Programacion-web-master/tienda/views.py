@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 from tienda.models import Cliente
 from django.db import IntegrityError
+from django.contrib.auth.decorators import user_passes_test
 
 # Tasa de conversión USD a CLP (aproximada)
 TASA_CAMBIO = 1000
@@ -83,12 +84,21 @@ def registro(request):
                 error = 'Ocurrió un error al registrar el usuario.'
     return render(request, 'tienda/registro.html', {'error': error, 'success': success})
 
+def es_admin(user):
+    return user.is_authenticated and user.groups.filter(name='Administrador').exists()
+
+def es_cliente(user):
+    return user.is_authenticated and user.groups.filter(name='Cliente').exists()
+
+@user_passes_test(es_admin)
 def panel_admin(request):
     return render(request, 'tienda/panel-admin.html')
 
+@user_passes_test(es_cliente)
 def panel_usuario(request):
     return render(request, 'tienda/panel-usuario.html')
 
+@user_passes_test(es_cliente)
 def pago(request):
     return render(request, 'tienda/pago.html')
 

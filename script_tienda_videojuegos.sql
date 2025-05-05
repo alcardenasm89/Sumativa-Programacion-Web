@@ -1,0 +1,58 @@
+
+-- Tabla de usuarios
+CREATE TABLE USUARIO (
+    ID_USUARIO         NUMBER PRIMARY KEY,
+    NOMBRE_COMPLETO    VARCHAR2(100),
+    USERNAME           VARCHAR2(50) UNIQUE,
+    EMAIL              VARCHAR2(100) UNIQUE,
+    PASSWORD           VARCHAR2(100),
+    FECHA_NACIMIENTO   DATE,
+    DIRECCION          VARCHAR2(255),
+    ROL                VARCHAR2(20) -- 'cliente' o 'admin'
+);
+
+-- Tabla de productos (videojuegos)
+CREATE TABLE PRODUCTO (
+    ID_PRODUCTO        NUMBER PRIMARY KEY,
+    NOMBRE             VARCHAR2(100),
+    CATEGORIA          VARCHAR2(50),
+    PRECIO             NUMBER(10,2),
+    STOCK              NUMBER,
+    STOCK_MINIMO       NUMBER,
+    ESTADO_STOCK       VARCHAR2(20), -- 'Normal', 'Bajo'
+    DESCRIPCION        VARCHAR2(500),
+    IMAGEN_URL         VARCHAR2(255)
+);
+
+-- Tabla de carrito
+CREATE TABLE CARRITO (
+    ID_CARRITO         NUMBER PRIMARY KEY,
+    ID_USUARIO         NUMBER REFERENCES USUARIO(ID_USUARIO),
+    FECHA_CREACION     DATE
+);
+
+-- Detalle del carrito
+CREATE TABLE DETALLE_CARRITO (
+    ID_DETALLE         NUMBER PRIMARY KEY,
+    ID_CARRITO         NUMBER REFERENCES CARRITO(ID_CARRITO),
+    ID_PRODUCTO        NUMBER REFERENCES PRODUCTO(ID_PRODUCTO),
+    CANTIDAD           NUMBER
+);
+
+-- Tabla de ventas
+CREATE TABLE VENTA (
+    ID_VENTA           NUMBER PRIMARY KEY,
+    ID_USUARIO         NUMBER REFERENCES USUARIO(ID_USUARIO),
+    FECHA_VENTA        DATE,
+    TOTAL              NUMBER(10,2),
+    ESTADO             VARCHAR2(20) -- 'Completado', 'Pendiente', etc.
+);
+
+-- Detalle de venta
+CREATE TABLE DETALLE_VENTA (
+    ID_DETALLE         NUMBER PRIMARY KEY,
+    ID_VENTA           NUMBER REFERENCES VENTA(ID_VENTA),
+    ID_PRODUCTO        NUMBER REFERENCES PRODUCTO(ID_PRODUCTO),
+    CANTIDAD           NUMBER,
+    PRECIO_UNITARIO    NUMBER(10,2)
+);
