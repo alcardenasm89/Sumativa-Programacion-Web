@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from tienda.models import Cliente
 from django.db import IntegrityError
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 # Tasa de conversión USD a CLP (aproximada)
 TASA_CAMBIO = 1000
@@ -77,6 +79,12 @@ def registro(request):
             error = 'El correo electrónico ya está registrado.'
         else:
             try:
+                # Validación explícita de contraseña segura
+                try:
+                    validate_password(password)
+                except ValidationError as e:
+                    error = e.messages
+                    return render(request, 'tienda/registro.html', {'error': error, 'success': success})
                 user = User.objects.create_user(username=username, email=email, password=password, first_name=nombre)
                 Cliente.objects.create(usuario=user, direccion=direccion or '', fecha_nacimiento=fecha_nacimiento, telefono='')
                 success = '¡Registro exitoso! Ahora puedes iniciar sesión.'
