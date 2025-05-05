@@ -30,4 +30,5 @@ urlpatterns = [
     path('panel-usuario/', views.panel_usuario, name='panel-usuario'),
     path('pago/', views.pago, name='pago'),
     path('recuperar-password/', views.recuperar_password, name='recuperar-password'),
+    path('', include('tienda.urls')),  # Incluir rutas de la app tienda
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
