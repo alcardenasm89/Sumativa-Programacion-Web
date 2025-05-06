@@ -23,7 +23,7 @@
                 <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; font-weight: 500;">{{ juego.titulo }}</div>
                 <div style="color: #2196f3; font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0 1rem 0;">CLP$ {{ juego.precio|intcomma }}</div>
                 <div style="display: flex; gap: 1.5rem; align-items: center;">
-                    <a href="#" style="color: #2196f3; font-weight: 600; text-decoration: underline; font-size: 1.1rem;">Ver Detalles</a>
+                    <a href="{% url 'detalle-juego' juego.id %}" style="color: #2196f3; font-weight: 600; text-decoration: underline; font-size: 1.1rem;">Ver Detalles</a>
                     <button 
                         class="agregar-carrito-btn"
                         data-id="{{ juego.id }}"

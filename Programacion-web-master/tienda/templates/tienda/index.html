@@ -29,7 +29,7 @@
                     <h3>{{ juego.titulo }}</h3>
                     <p class="precio-clp">CLP$ {{ juego.precio|intcomma }}</p>
                     <div class="detalles-container-horizontal">
-                        <a href="#" class="ver-detalles btn-azul">Ver Detalles</a>
+                        <a href="{% url 'detalle-juego' juego.id %}" class="ver-detalles btn-azul">Ver Detalles</a>
                         <button class="agregar-carrito btn-verde" data-id="{{ juego.id }}" data-titulo="{{ juego.titulo }}" data-precio="{{ juego.precio }}">
                             Agregar al carrito
                         </button>

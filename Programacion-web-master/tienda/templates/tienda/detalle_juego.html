@@ -1,84 +1,132 @@
 {% extends 'tienda/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ juego.titulo }} - SEVENGAMER{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="row">
         <!-- Imagen del juego -->
-        <div class="col-md-4">
-            <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" class="img-fluid rounded">
+        <div class="col-md-6">
+            {% if juego.imagen %}
+                <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" class="img-fluid rounded shadow" style="width: 100%; height: auto; object-fit: cover;">
+            {% else %}
+                <img src="{% static 'tienda/img/placeholder.jpg' %}" alt="Sin imagen" class="img-fluid rounded shadow">
+            {% endif %}
         </div>
-        
-        <!-- Información del juego -->
-        <div class="col-md-8">
-            <h1 class="mb-3">{{ juego.titulo }}</h1>
-            <div class="game-meta mb-3">
-                <span class="badge bg-primary">{{ juego.plataforma }}</span>
-                <span class="badge bg-secondary">{{ juego.categoria.nombre }}</span>
-                <span class="badge bg-info">{{ juego.desarrollador }}</span>
+
+        <!-- Detalles principales -->
+        <div class="col-md-6">
+            <h1 class="mb-4" style="font-family: 'Orbitron', sans-serif; font-weight: 700;">{{ juego.titulo }}</h1>
+            
+            <div class="game-details mb-4">
+                <div class="detail-item">
+                    <strong>Plataforma:</strong> {{ juego.plataforma }}
+                </div>
+                <div class="detail-item">
+                    <strong>Categoría:</strong> {{ juego.categoria.nombre }}
+                </div>
+                <div class="detail-item">
+                    <strong>Desarrollador:</strong> {{ juego.desarrollador }}
+                </div>
+                <div class="detail-item">
+                    <strong>Stock:</strong> {{ juego.stock }} unidades
+                </div>
             </div>
-            <p class="lead">{{ juego.descripcion }}</p>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="mb-0">CLP$ {{ juego.precio }}</h3>
-                <span class="text-muted">Stock: {{ juego.stock }}</span>
+        </div>
+    </div>
+
+    <!-- Descripción -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Descripción</h3>
+                    <p class="card-text">{{ juego.descripcion }}</p>
+                </div>
             </div>
-            <button class="btn btn-primary btn-lg">Añadir al Carrito</button>
+        </div>
+    </div>
+
+    <!-- Información de compra -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="text-primary mb-0">CLP$ {{ juego.precio|intcomma }}</h3>
+                            <p class="text-muted mb-0">Stock disponible: {{ juego.stock }}</p>
+                        </div>
+                        <button 
+                            class="btn btn-success btn-lg agregar-carrito-btn"
+                            data-id="{{ juego.id }}"
+                            data-titulo="{{ juego.titulo }}"
+                            data-precio="{{ juego.precio }}"
+                            data-imagen="{{ juego.imagen.url }}"
+                            style="background: #00e676; color: #222; font-weight: bold; border: none; border-radius: 10px; padding: 1rem 2rem; font-size: 1.2rem; box-shadow: 2px 2px 8px #888; transition: background 0.2s;">
+                            Añadir al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Sección de comentarios -->
-    <div class="row mt-5">
+    <div class="row mt-4">
         <div class="col-12">
-            <h2>Comentarios</h2>
-            
-            <!-- Formulario de comentarios -->
-            {% if user.is_authenticated %}
-            <div class="card mb-4">
+            <div class="card shadow-sm">
                 <div class="card-body">
-                    <form id="comentario-form" method="post" action="{% url 'agregar-comentario' juego.id %}">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <textarea class="form-control" name="texto" rows="3" placeholder="Escribe tu comentario..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Publicar comentario</button>
-                    </form>
-                </div>
-            </div>
-            {% else %}
-            <div class="alert alert-info">
-                <a href="{% url 'login' %}">Inicia sesión</a> para dejar un comentario.
-            </div>
-            {% endif %}
+                    <h3 class="card-title mb-4">Comentarios</h3>
+                    
+                    {% if user.is_authenticated %}
+                    <div class="comment-form mb-4">
+                        <form method="post" action="{% url 'agregar-comentario' juego.id %}" id="commentForm">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <textarea name="texto" class="form-control" rows="3" placeholder="Escribe tu comentario..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Publicar comentario</button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <a href="{% url 'login' %}">Inicia sesión</a> para dejar un comentario.
+                    </div>
+                    {% endif %}
 
-            <!-- Lista de comentarios -->
-            <div class="comentarios">
-                {% for comentario in comentarios %}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="card-title mb-0">{{ comentario.usuario.username }}</h5>
-                            <small class="text-muted">{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</small>
+                    <div class="comments-list">
+                        {% for comentario in comentarios %}
+                        <div class="comment-card mb-3 p-3 border rounded">
+                            <div class="comment-header d-flex justify-content-between mb-2">
+                                <span class="comment-author fw-bold">{{ comentario.usuario.username }}</span>
+                                <span class="comment-date text-muted">{{ comentario.fecha_creacion|date:"d/m/Y H:i" }}</span>
+                            </div>
+                            <p class="comment-text mb-0">{{ comentario.texto }}</p>
                         </div>
-                        <p class="card-text">{{ comentario.texto }}</p>
+                        {% empty %}
+                        <div class="no-comments text-center text-muted py-4">
+                            No hay comentarios aún. ¡Sé el primero en comentar!
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-                {% empty %}
-                <div class="alert alert-info">
-                    No hay comentarios aún. ¡Sé el primero en comentar!
-                </div>
-                {% endfor %}
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
 {% block extra_js %}
 <script>
-document.getElementById('comentario-form').addEventListener('submit', function(e) {
+document.getElementById('commentForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const form = this;
-    const formData = new FormData(form);
     
-    fetch(form.action, {
+    const formData = new FormData(this);
+    
+    fetch(this.action, {
         method: 'POST',
         body: formData,
         headers: {
@@ -87,17 +135,29 @@ document.getElementById('comentario-form').addEventListener('submit', function(e
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === 'success') {
-            location.reload();
-        } else {
-            alert('Error al publicar el comentario');
+        if (data.success) {
+            const commentsList = document.querySelector('.comments-list');
+            const noComments = commentsList.querySelector('.no-comments');
+            
+            if (noComments) {
+                noComments.remove();
+            }
+            
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-card mb-3 p-3 border rounded';
+            newComment.innerHTML = `
+                <div class="comment-header d-flex justify-content-between mb-2">
+                    <span class="comment-author fw-bold">${data.usuario}</span>
+                    <span class="comment-date text-muted">${data.fecha}</span>
+                </div>
+                <p class="comment-text mb-0">${data.texto}</p>
+            `;
+            
+            commentsList.insertBefore(newComment, commentsList.firstChild);
+            this.reset();
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error al publicar el comentario');
-    });
+    .catch(error => console.error('Error:', error));
 });
 </script>
-{% endblock %}
 {% endblock %} 
