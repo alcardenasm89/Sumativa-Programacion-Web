@@ -137,10 +137,3 @@ Si las imágenes no se cargan:
 2. Confirmar que los permisos son correctos
 3. Ejecutar `python manage.py collectstatic`
 
-## Contacto y Soporte
-Para reportar problemas o solicitar ayuda:
-- Crear un issue en el repositorio
-- Contactar al desarrollador: [TU_EMAIL]
-
-## Licencia
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles. 
