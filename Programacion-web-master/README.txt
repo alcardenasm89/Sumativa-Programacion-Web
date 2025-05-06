@@ -23,8 +23,8 @@ SEVENGAMER es una plataforma web de comercio electrónico especializada en video
 
 1. **Clonar el repositorio**
 ```bash
-git clone [URL_DEL_REPOSITORIO]
-cd Programacion-web-master
+git clone https://github.com/alcardenasm89/Sumativa-Programacion-Web.git
+cd Sumativa-Programacion-Web/Programacion-web-master
 ```
 
 2. **Crear y activar entorno virtual**
@@ -33,10 +33,6 @@ cd Programacion-web-master
 python -m venv venv
 .\venv\Scripts\activate
 
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
-```
 
 3. **Instalar dependencias**
 ```bash
@@ -46,8 +42,8 @@ pip install -r requirements.txt
 4. **Configurar variables de entorno**
 Crear un archivo `credenciales.env` en la raíz del proyecto con el siguiente contenido:
 ```
-RAWG_API_KEY=tu_api_key_de_rawg
-SECRET_KEY=tu_clave_secreta_de_django
+RAWG_API_KEY=HCRHYMIXG8SYHHCH
+SECRET_KEY=django-insecure-5^&*%$#@!1234567890abcdefghijklmnopqrstuvwxyz
 ```
 
 5. **Aplicar migraciones**
@@ -136,4 +132,3 @@ Si las imágenes no se cargan:
 1. Verificar que la carpeta `media` existe
 2. Confirmar que los permisos son correctos
 3. Ejecutar `python manage.py collectstatic`
-
