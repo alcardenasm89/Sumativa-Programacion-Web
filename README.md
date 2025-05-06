@@ -1,3 +1,28 @@
+IMPORTANTE!!!
+PUEDE EJECUTAR EL TERMINAL PROFESOR DESDE RUTA NORMAL python manage.py runserver EN EL TERMINAL DJANGO,CASO CONTRARIOPOR SI NO FUNCIONA DESDE runserver.bat DENTRO DE LA CARPETA Programacion-web-master
+CLAVE DE ADMIN DJANGO //RUTA ADMIN: http://127.0.0.1:8000/admin/
+
+Usuario: ADMIN1
+Pass: Oraclecloud123
+
+CLAVE USUARIO
+RUTA PAGINA http://127.0.0.1:8000/admin
+Usuario: juanperez
+Pass: Juan123!
+DATOS PARA ENTRAR A BD ORACLE
+DB_ENGINE=django.db.backends.oracle
+DB_NAME=HCRHYMIXG8SYHHCH_high
+DB_USER=ADMIN
+DB_PASSWORD=Oraclecloud123
+DB_HOST=HCRHYMIXG8SYHHCH.adb.sa-santiago-1.oraclecloudapps.com
+DB_PORT=1522
+DJANGO_SECRET_KEY=django-insecure-xn8hb+5l@4!u0kp^9l44tyw*(%hcnhk99-ftblq*@!0=2$mk7&
+TNS_ADMIN=C:\Users\jano_\OneDrive\Documentos\GitHub\Sumativa Programacion Web\Programacion-web-master\wallet
+
+# API Keys
+RAWG_API_KEY=4abf08392849407a95da984f94198b30
+
+
 # SEVENGAMER - Tienda de Videojuegos
 
 ## Descripción
