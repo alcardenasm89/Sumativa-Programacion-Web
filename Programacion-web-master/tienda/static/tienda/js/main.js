@@ -22,12 +22,11 @@ function guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
-function agregarAlCarrito(id, titulo, precio, imagen) {
+function agregarAlCarrito(id, titulo, precio) {
     const item = {
         id: id,
         titulo: titulo,
         precio: precio,
-        imagen: imagen,
         cantidad: 1
     };
     
@@ -64,7 +63,6 @@ function actualizarCarrito() {
         const div = document.createElement('div');
         div.className = 'carrito-item';
         div.innerHTML = `
-            <img src="${item.imagen}" class="carrito-item-img" alt="${item.titulo}">
             <div class="carrito-item-info">
                 <div class="carrito-item-titulo">${item.titulo}</div>
                 <div class="carrito-item-precio">CLP$ ${item.precio.toLocaleString()}</div>
@@ -119,6 +117,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     actualizarCarrito();
+
+    // Delegación de eventos para todos los botones de agregar al carrito
+    document.body.addEventListener('click', function(e) {
+        if (e.target.classList.contains('agregar-carrito-btn')) {
+            const btn = e.target;
+            const id = btn.getAttribute('data-id');
+            const titulo = btn.getAttribute('data-titulo');
+            const precio = parseInt(btn.getAttribute('data-precio'));
+            agregarAlCarrito(id, titulo, precio);
+        }
+    });
 
     // Event Listeners para búsqueda
     const searchInput = document.getElementById('searchInput');

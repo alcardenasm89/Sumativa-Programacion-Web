@@ -1,0 +1,157 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-container">
+    <div class="form-box">
+        <h2>{{ titulo }}</h2>
+        
+        {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="error-message">
+                    {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'panel-admin' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .content-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .form-box {
+        background: rgba(30, 30, 60, 0.92);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        padding: 2rem;
+        color: #b0b8d1;
+    }
+
+    h2 {
+        color: #00eaff;
+        font-family: 'Orbitron', Arial, sans-serif;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #00eaff;
+        font-family: 'Rajdhani', Arial, sans-serif;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid rgba(0, 234, 255, 0.2);
+        border-radius: 10px;
+        background: rgba(35, 35, 74, 0.5);
+        color: #b0b8d1;
+        font-family: 'Rajdhani', Arial, sans-serif;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #00eaff;
+        box-shadow: 0 0 0 2px rgba(0, 234, 255, 0.2);
+    }
+
+    .error-message {
+        color: #ff4757;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Rajdhani', Arial, sans-serif;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background: #00eaff;
+        color: #1a2236;
+    }
+
+    .btn-primary:hover {
+        background: #00ffb3;
+    }
+
+    .btn-secondary {
+        background: #3a1c71;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+        background: #4a2c81;
+    }
+
+    .alert-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .alert {
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+    }
+
+    .alert-success {
+        background: rgba(0, 255, 179, 0.1);
+        border: 1px solid #00ffb3;
+        color: #00ffb3;
+    }
+
+    .alert-error {
+        background: rgba(255, 71, 87, 0.1);
+        border: 1px solid #ff4757;
+        color: #ff4757;
+    }
+</style>
+{% endblock %} 

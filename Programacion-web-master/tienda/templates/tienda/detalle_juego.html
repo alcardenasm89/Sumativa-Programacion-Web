@@ -83,7 +83,7 @@
                     
                     {% if user.is_authenticated %}
                     <div class="comment-form mb-4">
-                        <form method="post" action="{% url 'agregar-comentario' juego.id %}" id="commentForm">
+                        <form method="post" action="{% url 'agregar_comentario' juego.id %}" id="commentForm">
                             {% csrf_token %}
                             <div class="form-group">
                                 <textarea name="texto" class="form-control" rows="3" placeholder="Escribe tu comentario..." required></textarea>

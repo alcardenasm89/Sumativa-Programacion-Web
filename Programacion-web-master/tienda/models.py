@@ -58,20 +58,23 @@ class Cliente(models.Model):
         return self.usuario.username
 
 class Pedido(models.Model):
-    ESTADOS = [
-        ('P', 'Pendiente'),
-        ('E', 'Enviado'),
-        ('C', 'Completado'),
-        ('A', 'Cancelado'),
+    PENDIENTE = 'pendiente'
+    COMPLETADO = 'completado'
+    CANCELADO = 'cancelado'
+    
+    ESTADO_CHOICES = [
+        (PENDIENTE, 'Pendiente'),
+        (COMPLETADO, 'Completado'),
+        (CANCELADO, 'Cancelado'),
     ]
     
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha_pedido = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=1, choices=ESTADOS, default='P')
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default=PENDIENTE)
     total = models.DecimalField(max_digits=10, decimal_places=2)
-
+    
     def __str__(self):
-        return f"Pedido {self.id} - {self.cliente}"
+        return f'Pedido #{self.id} - {self.cliente.usuario.username}'
 
 class DetallePedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
@@ -81,3 +84,27 @@ class DetallePedido(models.Model):
 
     def __str__(self):
         return f"{self.videojuego} x {self.cantidad}"
+
+class Orden(models.Model):
+    ESTADOS = [
+        ('pendiente', 'Pendiente'),
+        ('completada', 'Completada'),
+        ('cancelada', 'Cancelada')
+    ]
+    
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
+
+    def __str__(self):
+        return f"Orden #{self.id} - {self.usuario.username}"
+
+class OrdenItem(models.Model):
+    orden = models.ForeignKey(Orden, on_delete=models.CASCADE, related_name='items')
+    videojuego = models.ForeignKey(Videojuego, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.cantidad}x {self.videojuego.titulo} en Orden #{self.orden.id}"

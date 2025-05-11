@@ -9,7 +9,7 @@
         </li>
         {% for cat in categorias %}
         <li>
-            <a href="{% url 'categoria_detalle' slug=cat.slug %}" class="categoria-tarjeta {% if categoria.slug == cat.slug %}active{% endif %}" style="background-image: url({{ cat.imagen.url }});">
+            <a href="{% url 'juegos_categoria' id=cat.id %}" class="categoria-tarjeta {% if categoria.id == cat.id %}active{% endif %}" style="background-image: url({{ cat.imagen.url }});">
                 {{ cat.nombre }}
             </a>
         </li>

@@ -1,0 +1,195 @@
+/* Variables globales */
+:root {
+    --primary: #1a2236;
+    --secondary: #3a1c71;
+    --accent: #00eaff;
+    --primary-fg: #fff;
+    --body-fg: #b0b8d1;
+    --body-bg: #1a2236;
+    --header-color: #fff;
+    --header-link-color: #00eaff;
+    --header-link-hover-color: #00ffb3;
+}
+
+/* Estilos generales */
+body {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    font-family: 'Orbitron', 'Rajdhani', Arial, sans-serif;
+    color: var(--body-fg);
+}
+
+/* Header */
+#header {
+    background: rgba(30, 30, 60, 0.92);
+    color: var(--header-color);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 1rem 2rem;
+}
+
+#branding h1 {
+    font-family: 'Orbitron', Arial, sans-serif;
+    color: var(--header-color);
+    text-shadow: 0 0 16px var(--accent);
+    font-size: 1.8rem;
+}
+
+#branding h1 a:link, #branding h1 a:visited {
+    color: var(--header-color);
+}
+
+/* Módulos */
+.module {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    margin-bottom: 20px;
+    border: none;
+}
+
+.module h2, .module caption {
+    background: rgba(0, 234, 255, 0.1);
+    color: var(--accent);
+    font-family: 'Orbitron', Arial, sans-serif;
+    padding: 1rem;
+    border-radius: 18px 18px 0 0;
+}
+
+/* Tablas */
+#changelist table {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+#changelist table thead th {
+    background: rgba(0, 234, 255, 0.1);
+    color: var(--accent);
+    padding: 1rem;
+}
+
+#changelist table tbody td {
+    padding: 1rem;
+    color: var(--body-fg);
+}
+
+#changelist table tbody tr:hover {
+    background: rgba(0, 234, 255, 0.05);
+}
+
+/* Botones */
+.button, input[type=submit], input[type=button], .submit-row input {
+    background: var(--accent);
+    color: #222;
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-family: 'Rajdhani', Arial, sans-serif;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background: #00ffb3;
+}
+
+.button.default {
+    background: #00ffb3;
+}
+
+.button.default:hover {
+    background: var(--accent);
+}
+
+.button.danger {
+    background: #ff4757;
+    color: #fff;
+}
+
+.button.danger:hover {
+    background: #ff6b81;
+}
+
+/* Formularios */
+.form-row {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-row label {
+    color: var(--accent);
+    font-family: 'Rajdhani', Arial, sans-serif;
+}
+
+.form-row input, .form-row select, .form-row textarea {
+    background: rgba(35, 35, 74, 0.5);
+    border: 1px solid rgba(0, 234, 255, 0.2);
+    border-radius: 10px;
+    color: var(--body-fg);
+    padding: 0.5rem;
+}
+
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(0, 234, 255, 0.2);
+}
+
+/* Mensajes */
+.messagelist {
+    margin: 1rem 0;
+}
+
+.messagelist li {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+}
+
+.messagelist li.success {
+    border-left: 4px solid #00ffb3;
+}
+
+.messagelist li.error {
+    border-left: 4px solid #ff4757;
+}
+
+/* Login */
+.login {
+    background: none;
+}
+
+.login #container {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 2.5rem;
+    margin-top: 5rem;
+}
+
+.login #header {
+    background: none;
+    box-shadow: none;
+}
+
+.login .form-row {
+    padding: 1rem 0;
+}
+
+.login .submit-row {
+    padding: 1rem 0;
+}
+
+.login .password-reset-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login .password-reset-link a {
+    color: var(--accent);
+}
+
+.login .password-reset-link a:hover {
+    color: var(--header-link-hover-color);
+} 

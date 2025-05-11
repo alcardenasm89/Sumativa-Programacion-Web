@@ -1,0 +1,238 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.form-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.form-title {
+    font-family: 'Orbitron', Arial, sans-serif;
+    color: #00ffb3;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.form-section {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #00ffb3;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #00ffb3;
+    box-shadow: 0 0 0 2px rgba(0, 255, 179, 0.2);
+}
+
+.btn {
+    background: #00ffb3;
+    color: #222;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #00eaff;
+}
+
+.btn-secondary {
+    background: #666;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #777;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.alert-danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.errorlist {
+    color: #e74c3c;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <h1 class="form-title">Crear Videojuego</h1>
+    </div>
+
+    <div class="form-section">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_titulo">Título</label>
+                {{ form.titulo }}
+                {% if form.titulo.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.titulo.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_descripcion">Descripción</label>
+                {{ form.descripcion }}
+                {% if form.descripcion.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.descripcion.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_precio">Precio</label>
+                {{ form.precio }}
+                {% if form.precio.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.precio.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_stock">Stock</label>
+                {{ form.stock }}
+                {% if form.stock.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.stock.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_imagen">Imagen</label>
+                {{ form.imagen }}
+                {% if form.imagen.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.imagen.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_categoria">Categoría</label>
+                {{ form.categoria }}
+                {% if form.categoria.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.categoria.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_fecha_lanzamiento">Fecha de Lanzamiento</label>
+                {{ form.fecha_lanzamiento }}
+                {% if form.fecha_lanzamiento.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.fecha_lanzamiento.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_desarrollador">Desarrollador</label>
+                {{ form.desarrollador }}
+                {% if form.desarrollador.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.desarrollador.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_plataforma">Plataforma</label>
+                {{ form.plataforma }}
+                {% if form.plataforma.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.plataforma.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn">Crear Videojuego</button>
+                <a href="{% url 'panel-admin' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

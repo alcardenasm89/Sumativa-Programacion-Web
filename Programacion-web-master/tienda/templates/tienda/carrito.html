@@ -1,0 +1,91 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block title %}Carrito de Compras - SEVENGAMER{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <div class="form-box">
+        <h2 class="mb-4 text-center" style="font-family: 'Orbitron', sans-serif; color: #00eaff;">Carrito de Compras</h2>
+        {% if juegos %}
+        <div class="table-responsive mb-4">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>Juego</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in juegos %}
+                    <tr>
+                        <td>{{ item.juego.titulo }}</td>
+                        <td>CLP$ {{ item.juego.precio }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>CLP$ {{ item.subtotal }}</td>
+                        <td>
+                            <form method="post" action="{% url 'eliminar_del_carrito' item.juego.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0" style="color: #00ffb3;">Total: CLP$ {{ total }}</h4>
+            <a href="{% url 'checkout' %}" class="submit-btn">Proceder al Pago</a>
+        </div>
+        {% else %}
+            <p class="text-muted text-center">Tu carrito está vacío.</p>
+        {% endif %}
+    </div>
+</div>
+<style>
+.content-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+body {
+    background: linear-gradient(120deg, #23234a 0%, #1a2236 100%) !important;
+    min-height: 100vh;
+}
+.form-box {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 2rem;
+    color: #b0b8d1;
+}
+.submit-btn {
+    background: #00ffb3;
+    color: #1a2236;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 1.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+.submit-btn:hover {
+    background: #00eaff;
+    transform: translateY(-2px);
+}
+.table-dark {
+    background-color: #23234a;
+    color: #fff;
+}
+.table-dark th, .table-dark td {
+    border-color: #44445a;
+}
+</style>
+{% endblock %} 

@@ -8,12 +8,42 @@
     {% include 'tienda/sidebar.html' %}
     <!-- Contenido principal -->
     <main class="main-content">
+        {% if user.is_authenticated %}
+        <div class="api-section">
+            <h2>API de SEVENGAMER</h2>
+            <div class="api-info">
+                <p>Accede a nuestra API REST para obtener datos de videojuegos, clientes y más.</p>
+                <div class="api-endpoints">
+                    <h3>Endpoints disponibles:</h3>
+                    <ul>
+                        <li><code>GET /api/videojuegos/</code> - Lista todos los videojuegos</li>
+                        <li><code>GET /api/videojuegos/{id}/</code> - Obtiene detalles de un videojuego</li>
+                        <li><code>POST /api/clientes/</code> - Crea un nuevo cliente</li>
+                    </ul>
+                    <div class="api-auth">
+                        <h3>Autenticación:</h3>
+                        <p>Para usar la API, necesitas un token JWT. Obtén tu token en:</p>
+                        <code>POST /api/token/</code>
+                        <div class="api-example">
+                            <h4>Ejemplo de uso:</h4>
+                            <pre>
+curl -X POST http://localhost:8000/api/token/ \
+     -H "Content-Type: application/json" \
+     -d '{"username": "tu_usuario", "password": "tu_contraseña"}'
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <h1>Juegos Destacados</h1>
         <!-- Barra de búsqueda -->
         <div class="search-box" style="display: flex; align-items: center; gap: 1rem;">
             <input type="text" class="form-control" style="font-size: 1.3rem; padding: 1rem; border-radius: 8px; flex: 1;" placeholder="Buscar juegos...">
             <button type="submit" style="background: #2196f3; border: none; border-radius: 10px; box-shadow: 2px 2px 8px #888; padding: 0.7rem 1.2rem;">
-                <img src="{% static 'tienda/media/lupa.png' %}" alt="Buscar" style="width: 32px; height: 32px;">
+                <img src="/static/tienda/media/lupa.png" alt="Buscar" style="width: 32px; height: 32px;">
             </button>
         </div>
         <!-- Lista de juegos -->
@@ -29,8 +59,8 @@
                     <h3>{{ juego.titulo }}</h3>
                     <p class="precio-clp">CLP$ {{ juego.precio|intcomma }}</p>
                     <div class="detalles-container-horizontal">
-                        <a href="{% url 'detalle-juego' juego.id %}" class="ver-detalles btn-azul">Ver Detalles</a>
-                        <button class="agregar-carrito btn-verde" data-id="{{ juego.id }}" data-titulo="{{ juego.titulo }}" data-precio="{{ juego.precio }}">
+                        <a href="{% url 'detalle_juego' id=juego.id %}" class="ver-detalles btn-azul">Ver Detalles</a>
+                        <button class="agregar-carrito-btn btn-verde" data-id="{{ juego.id }}" data-titulo="{{ juego.titulo }}" data-precio="{{ juego.precio }}">
                             Agregar al carrito
                         </button>
                     </div>
@@ -39,6 +69,41 @@
             {% empty %}
             <p>No hay juegos disponibles en este momento.</p>
             {% endfor %}
+        </div>
+
+        <!-- Sección de Juegos Externos -->
+        <div class="external-games-section">
+            <div class="section-header">
+                <h2>Juegos Populares</h2>
+                <p class="section-subtitle">Descubre los juegos más valorados por la comunidad</p>
+            </div>
+            <div class="external-games-preview">
+                <div class="external-games-grid">
+                    {% for juego in juegos_externos %}
+                    <div class="external-game-card">
+                        <div class="game-info">
+                            <h3 class="game-title">{{ juego.name }}</h3>
+                            <div class="game-meta">
+                                <span class="game-year">{{ juego.released|date:"Y" }}</span>
+                                {% if juego.genres %}
+                                <span class="game-genre">{{ juego.genres.0.name }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="game-tags">
+                                {% if juego.tags %}
+                                    {% for tag in juego.tags|slice:":3" %}
+                                        <span class="tag">{{ tag.name|title }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="view-more-container">
+                    <a href="{% url 'juegos_externos' %}" class="view-more-btn">Ver más juegos populares</a>
+                </div>
+            </div>
         </div>
     </main>
 </div>
@@ -68,4 +133,203 @@
         <button class="checkout-btn">Proceder al pago</button>
     </div>
 </div>
+
+<style>
+.api-section {
+    background: rgba(35, 35, 74, 0.5);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 255, 179, 0.1);
+}
+
+.api-section h2 {
+    color: #00ffb3;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 1rem;
+}
+
+.api-info {
+    color: #fff;
+}
+
+.api-endpoints {
+    margin-top: 1.5rem;
+}
+
+.api-endpoints h3 {
+    color: #00eaff;
+    margin-bottom: 0.5rem;
+}
+
+.api-endpoints ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.api-endpoints li {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(24, 24, 40, 0.8);
+    border-radius: 8px;
+}
+
+.api-endpoints code {
+    color: #00ffb3;
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+.api-auth {
+    background: rgba(24, 24, 40, 0.8);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.api-auth h3 {
+    color: #00eaff;
+    margin-bottom: 0.5rem;
+}
+
+.api-example {
+    margin-top: 1rem;
+}
+
+.api-example h4 {
+    color: #00eaff;
+    margin-bottom: 0.5rem;
+}
+
+.api-example pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    color: #fff;
+    font-family: monospace;
+    margin: 0;
+}
+
+/* Estilos para la sección de juegos externos */
+.external-games-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    color: #00ffb3;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    color: #888;
+    font-size: 1.2rem;
+}
+
+.external-games-preview {
+    position: relative;
+}
+
+.external-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.external-game-card {
+    background: rgba(24, 24, 40, 0.95);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+}
+
+.external-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 255, 179, 0.2);
+}
+
+.game-info {
+    padding: 0;
+}
+
+.game-title {
+    color: #fff;
+    font-size: 1.4rem;
+    margin: 0 0 1rem 0;
+}
+
+.game-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    background: rgba(0, 255, 179, 0.1);
+    color: #00ffb3;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.view-more-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.view-more-btn {
+    display: inline-block;
+    background: #00ffb3;
+    color: #222;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(0, 255, 179, 0.2);
+}
+
+.view-more-btn:hover {
+    background: #00eaff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 179, 0.3);
+}
+
+@media (max-width: 768px) {
+    .external-games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+}
+</style>
 {% endblock %}

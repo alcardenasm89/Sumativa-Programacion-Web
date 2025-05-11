@@ -1,0 +1,241 @@
+/* Estilos generales */
+body {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Header y navegación */
+#header {
+    background: #2d2d2d;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#branding h1 {
+    color: #ffffff;
+}
+
+.module h2, .module caption {
+    background: #2d2d2d;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Módulos y contenedores */
+.module {
+    background: #2d2d2d;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border: 1px solid #3d3d3d;
+}
+
+/* Tablas */
+#changelist table {
+    background: #2d2d2d;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#changelist table thead th {
+    background: #3d3d3d;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+#changelist table tbody tr:hover {
+    background: #3d3d3d;
+}
+
+/* Formularios */
+.form-row {
+    padding: 12px;
+    border-bottom: 1px solid #3d3d3d;
+}
+
+.form-row:last-child {
+    border-bottom: none;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+textarea,
+select {
+    background: #1a1a1a;
+    border: 1px solid #3d3d3d;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 8px 12px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Botones */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+    background: #4a90e2;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover {
+    background: #357abd;
+}
+
+.button.default {
+    background: #4a90e2;
+}
+
+.button.default:hover {
+    background: #357abd;
+}
+
+/* Mensajes */
+.messagelist {
+    margin: 0 0 20px 0;
+}
+
+.messagelist li {
+    background: #2d2d2d;
+    border-radius: 4px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.messagelist li.success {
+    background: #28a745;
+    color: #ffffff;
+}
+
+.messagelist li.error {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+.messagelist li.warning {
+    background: #ffc107;
+    color: #000000;
+}
+
+/* Sidebar */
+#content-related {
+    background: #2d2d2d;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #3d3d3d;
+}
+
+#content-related .module h2 {
+    background: #3d3d3d;
+    color: #ffffff;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Paginación */
+.paginator {
+    background: #2d2d2d;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+.paginator a:link,
+.paginator a:visited {
+    background: #3d3d3d;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+.paginator a:hover {
+    background: #4a90e2;
+}
+
+/* Filtros */
+#changelist-filter {
+    background: #2d2d2d;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #3d3d3d;
+}
+
+#changelist-filter h2 {
+    background: #3d3d3d;
+    color: #ffffff;
+    border-radius: 8px 8px 0 0;
+}
+
+#changelist-filter li.selected a {
+    color: #4a90e2;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background: #2d2d2d;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.breadcrumbs a {
+    color: #4a90e2;
+}
+
+.breadcrumbs a:hover {
+    color: #357abd;
+}
+
+/* Login */
+.login {
+    background: #2d2d2d;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 30px;
+    max-width: 400px;
+    margin: 100px auto;
+}
+
+.login .form-row {
+    padding: 10px 0;
+}
+
+.login .submit-row {
+    padding: 20px 0 0 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    #content {
+        margin-right: 0;
+    }
+    
+    #changelist-filter {
+        display: none;
+    }
+} 

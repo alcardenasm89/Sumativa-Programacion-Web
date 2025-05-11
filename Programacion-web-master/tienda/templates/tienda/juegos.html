@@ -1,0 +1,42 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="content-container">
+    {% include 'tienda/sidebar.html' %}
+    <main class="main-content">
+        <h1>Todos los Juegos</h1>
+        <form method="get" class="search-box" style="display: flex; align-items: center; gap: 1rem;">
+            <input type="text" name="q" class="form-control" style="font-size: 1.3rem; padding: 1rem; border-radius: 8px; flex: 1;" placeholder="Buscar juegos..." value="{{ request.GET.q }}">
+            <button type="submit" style="background: #2196f3; border: none; border-radius: 10px; box-shadow: 2px 2px 8px #888; padding: 0.7rem 1.2rem;">
+                <img src="{% static 'tienda/media/lupa.png' %}" alt="Buscar" style="width: 32px; height: 32px;">
+            </button>
+        </form>
+
+        {% for juego in juegos %}
+        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #eee; display: flex; align-items: center; margin-bottom: 2rem; padding: 1.2rem 1.5rem; gap: 1.5rem;">
+            <img src="{{ juego.imagen.url }}" alt="{{ juego.titulo }}" style="width: 180px; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid #eee;">
+            <div style="flex: 1;">
+                <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; font-weight: 500;">{{ juego.titulo }}</div>
+                <div style="color: #2196f3; font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0 1rem 0;">CLP$ {{ juego.precio|intcomma }}</div>
+                <div style="display: flex; gap: 1.5rem; align-items: center;">
+                    <a href="{% url 'detalle_juego' id=juego.id %}" style="color: #2196f3; font-weight: 600; text-decoration: underline; font-size: 1.1rem;">Ver Detalles</a>
+                    <button 
+                        class="agregar-carrito-btn"
+                        data-id="{{ juego.id }}"
+                        data-titulo="{{ juego.titulo }}"
+                        data-precio="{{ juego.precio }}"
+                        data-imagen="{{ juego.imagen.url }}"
+                        style="background: #00e676; color: #222; font-weight: bold; border: none; border-radius: 10px; padding: 0.7rem 1.5rem; font-size: 1.1rem; box-shadow: 2px 2px 8px #888; transition: background 0.2s;">
+                        Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay juegos disponibles.</p>
+        {% endfor %}
+    </main>
+</div>
+{% endblock %} 

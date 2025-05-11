@@ -173,15 +173,20 @@ body {
     }
 }
 </style>
+
 <div class="content-container">
     <div class="form-box">
         <h2>Iniciar Sesión</h2>
-        {% if error %}
-            <div class="alert alert-danger" style="color: #fff; background: #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 1rem;">
-                {{ error }}
-            </div>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endif %}
-        <form method="post" novalidate>
+
+        <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="username">Nombre de usuario:</label>
@@ -200,7 +205,7 @@ body {
                     <span class="checkmark"></span>
                     Recordarme
                 </label>
-                <a href="{% url 'recuperar-password' %}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                <a href="{% url 'recuperar_password' %}" class="forgot-password">¿Olvidaste tu contraseña?</a>
             </div>
             <div class="button-container">
                 <button type="submit" class="submit-btn">Iniciar Sesión</button>
@@ -212,6 +217,7 @@ body {
         </form>
     </div>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 <script>
 function togglePassword() {

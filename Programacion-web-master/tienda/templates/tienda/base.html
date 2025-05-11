@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Tienda de Videojuegos{% endblock %}</title>
     {% load static %}
-    <link rel="icon" href="{% static 'tienda/media/control4.png' %}" type="png">
+    <link rel="icon" href="{% static 'tienda/img/control4.png' %}" type="png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'tienda/css/style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
@@ -21,13 +22,39 @@
         <nav>
             <div class="nav-links">
                 <a href="{% url 'index' %}">Inicio</a>
-                <a href="{% url 'login' %}">Iniciar Sesión</a>
-                <a href="{% url 'registro' %}">Registrarse</a>
+                <a href="{% url 'juegos' %}">Juegos</a>
+                <a href="{% url 'categorias' %}">Categorías</a>
+                {% if user.is_authenticated %}
+                    <div class="user-menu">
+                        <button class="user-menu-btn">
+                            <span class="user-name">{{ user.username }}</span>
+                            <span class="user-arrow">▼</span>
+                        </button>
+                        <div class="user-dropdown">
+                            {% if user.is_staff %}
+                                <a href="{% url 'panel-admin' %}">Panel Admin</a>
+                            {% else %}
+                                <a href="{% url 'perfil' %}">Mi Perfil</a>
+                                <a href="{% url 'pedidos' %}">Mis Pedidos</a>
+                            {% endif %}
+                            <a href="{% url 'editar-perfil' %}">Editar Perfil</a>
+                            <hr>
+                            <a href="{% url 'logout' %}" class="logout-link">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="auth-buttons">
+                        <a href="{% url 'login' %}" class="login-btn">Iniciar Sesión</a>
+                        <a href="{% url 'registro' %}" class="register-btn">Registrarse</a>
+                </div>
+                {% endif %}
             </div>
+            {% if user.is_authenticated %}
             <a href="#" class="carrito-icon" id="carritoBtn">
-                <img src="{% static 'tienda/media/carrito-compras.png' %}" alt="Carrito de compras" class="carrito-img">
+                <img src="{% static 'tienda/img/carrito-compras.png' %}" alt="Carrito de compras" class="carrito-img">
                 <span id="contador-carrito">0</span>
             </a>
+            {% endif %}
         </nav>
     </header>
 
@@ -39,189 +66,318 @@
         <p>&copy; 2024 SEVENGAMER. Todos los derechos reservados.</p>
     </footer>
 
+    {% if user.is_authenticated %}
+    <!-- Overlay para el carrito -->
+    <div id="carritoOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(20,20,40,0.7); z-index:999;"></div>
     <!-- Modal Carrito de Compras -->
-    <div id="carritoModal" class="carrito-modal" style="display:none;">
-        <div class="carrito-header">
-            <h2>Carrito de Compras</h2>
-            <button class="cerrar-carrito" onclick="cerrarCarrito()">&times;</button>
+    <div id="carritoModal" class="carrito-modal" style="display:none; background: rgba(30,30,60,0.97); border-radius: 18px 0 0 18px; box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37); color: #b0b8d1; max-width: 340px; width: 95vw; right: 0;">
+        <div class="carrito-header" style="padding: 2rem 2rem 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <h2 style="color: #00eaff; font-family: 'Orbitron', Arial, sans-serif;">Carrito de Compras</h2>
+            <button class="cerrar-carrito" onclick="cerrarCarrito()" style="background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; margin-left: 1rem;">&times;</button>
         </div>
         <hr style="border: 0; border-top: 1px solid #444; margin: 0 0 1rem 0;">
         <div class="carrito-items" id="carritoItems"></div>
-        <div class="carrito-total-box">
-            <div class="total-row">
+        <div class="carrito-total-box" style="background: rgba(35,35,74,0.5); border-radius: 12px; margin: 0 1.5rem 1.5rem 1.5rem; padding: 1.5rem 1.5rem 2rem 1.5rem; box-shadow: 0 2px 8px #0002;">
+            <div class="total-row" style="display: flex; justify-content: space-between; margin-bottom: 1.1rem; color: #fff; font-size: 1.1rem;">
                 <span>Subtotal:</span>
                 <span id="subtotal">CLP$ 0</span>
             </div>
-            <div class="total-row">
+            <div class="total-row" style="display: flex; justify-content: space-between; margin-bottom: 1.1rem; color: #fff; font-size: 1.1rem;">
                 <span>IVA (19%):</span>
                 <span id="iva">CLP$ 0</span>
             </div>
-            <div class="total-row final">
+            <div class="total-row final" style="font-size: 1.2rem; font-weight: bold; color: #00ffb3; margin-bottom: 1.5rem; display: flex; justify-content: space-between;">
                 <span style="font-weight:bold; color:#00ffb3; font-size:1.2em;">Total:</span>
                 <span id="total" style="font-weight:bold; color:#00ffb3; font-size:1.2em;">CLP$ 0</span>
             </div>
-            <button class="checkout-btn" onclick="procederPago()">Proceder al Pago</button>
+            <button class="checkout-btn" onclick="procederPago()" style="width: 100%; background: #00ffb3; color: #1a2236; font-weight: bold; border: none; border-radius: 10px; padding: 1.2rem 0; font-size: 1.2rem; margin-top: 1.2rem; box-shadow: 0 2px 8px #00ffb355; cursor: pointer; transition: background 0.2s, color 0.2s;">Proceder al Pago</button>
         </div>
     </div>
+    {% endif %}
 
     <style>
-    .carrito-modal {
-        position: fixed;
-        top: 0; right: 0;
-        width: 100%;
-        max-width: 420px;
-        height: 100vh;
-        background: rgba(10, 10, 20, 0.98);
-        box-shadow: -4px 0 32px #00ffb355;
-        z-index: 9999;
-        display: none;
-        flex-direction: column;
-        padding: 0 0 1.5rem 0;
-        transition: right 0.3s;
-    }
-    .carrito-modal.activo {
-        display: flex;
-    }
-    .carrito-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 2rem 2rem 0.5rem 2rem;
-    }
-    .carrito-header h2 {
-        font-family: 'Orbitron', Arial, sans-serif;
-        color: #00ffb3;
-        font-size: 2.3rem;
-        margin: 0;
-    }
-    .cerrar-carrito {
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 2rem;
-        cursor: pointer;
-        margin-left: 1rem;
-    }
-    .carrito-items {
-        flex: 1;
-        overflow-y: auto;
-        padding: 0 2rem;
-        margin-bottom: 1rem;
-    }
-    .carrito-item {
-        display: flex;
-        align-items: center;
-        background: #23234a;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        padding: 0.7rem 1rem;
-        color: #fff;
-        box-shadow: 0 2px 8px #0002;
-    }
-    .carrito-item-img {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-right: 1rem;
-    }
-    .carrito-item-info {
-        flex: 1;
-    }
-    .carrito-item-titulo {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #00eaff;
-    }
-    .carrito-item-precio {
-        color: #00ffb3;
-        font-size: 1rem;
-        margin-top: 0.2rem;
-    }
-    .carrito-item-cantidad {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
-    }
-    .carrito-cantidad-btn {
-        background: #00ffb3;
-        color: #222;
-        border: none;
-        border-radius: 6px;
-        width: 28px;
-        height: 28px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .carrito-cantidad-btn:hover {
-        background: #00eaff;
-    }
-    .carrito-item-eliminar {
-        background: none;
-        border: none;
-        color: #e74c3c;
-        font-size: 1.3rem;
-        margin-left: 1rem;
-        cursor: pointer;
-        transition: color 0.2s;
-    }
-    .carrito-item-eliminar:hover {
-        color: #ff1744;
-    }
-    .carrito-total-box {
-        background: #181828;
-        border-radius: 12px;
-        margin: 0 1.5rem;
-        padding: 1.2rem 1.2rem 1.5rem 1.2rem;
-        box-shadow: 0 2px 8px #0002;
-    }
-    .total-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.7rem;
-        color: #fff;
-        font-size: 1.1rem;
-    }
-    .total-row.final {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #00ffb3;
-        margin-bottom: 1.2rem;
-    }
-    .checkout-btn {
-        width: 100%;
-        background: #00ffb3;
-        color: #222;
-        font-weight: bold;
-        border: none;
-        border-radius: 10px;
-        padding: 1rem 0;
-        font-size: 1.2rem;
-        margin-top: 0.5rem;
-        box-shadow: 0 2px 8px #00ffb355;
-        cursor: pointer;
-        transition: background 0.2s, color 0.2s;
-    }
-    .checkout-btn:hover {
-        background: #00eaff;
-        color: #111;
-    }
-    @media (max-width: 600px) {
-        .carrito-modal {
-            max-width: 100vw;
-            padding: 0 0 1.5rem 0;
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
         }
-        .carrito-header, .carrito-items, .carrito-total-box {
-            padding-left: 1rem;
-            padding-right: 1rem;
+        .navbar {
+            background-color: #111 !important;
+            border-bottom: 1px solid #333;
         }
-    }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .nav-link:hover {
+            color: #00ffb3 !important;
+        }
+        .card {
+            background-color: #111;
+            border: 1px solid #333;
+        }
+        .card-title, .card-text {
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #00ffb3;
+            border-color: #00ffb3;
+            color: #000;
+        }
+        .btn-primary:hover {
+            background-color: #00cc8f;
+            border-color: #00cc8f;
+            color: #000;
+        }
+        .login-btn, .register-btn {
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .login-btn {
+            background-color: #00ffb3;
+            color: #000;
+            border: 2px solid #00ffb3;
+        }
+        .register-btn {
+            background-color: transparent;
+            color: #00ffb3;
+            border: 2px solid #00ffb3;
+            margin-left: 10px;
+        }
+        .login-btn:hover {
+            background-color: #00cc8f;
+            border-color: #00cc8f;
+            color: #000;
+        }
+        .register-btn:hover {
+            background-color: #00ffb3;
+            color: #000;
+        }
+        .footer {
+            background-color: #111;
+            color: #fff;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        .footer a {
+            color: #00ffb3;
+        }
+        .footer a:hover {
+            color: #00cc8f;
+        }
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        .user-menu-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: 'Rajdhani', Arial, sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .user-menu-btn:hover, .user-menu-btn.active {
+            background: rgba(0,255,179,0.08);
+        }
+        .user-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+        .user-menu.open .user-arrow {
+            transform: rotate(180deg);
+        }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #111;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            min-width: 200px;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+        .user-menu.open .user-dropdown {
+            display: block;
+        }
+        .user-dropdown a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .user-dropdown a:hover {
+            background: rgba(0,255,179,0.08);
+            color: #00ffb3;
+        }
+        .user-dropdown hr {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 0.5rem 0;
+        }
+        .logout-link {
+            color: #ff4757 !important;
+        }
+        .logout-link:hover {
+            background: rgba(255,71,87,0.1) !important;
+            color: #ff4757 !important;
+        }
+        @media (max-width: 768px) {
+            .user-dropdown {
+                right: auto;
+                left: 0;
+                min-width: 160px;
+            }
+        }
     </style>
 
-    <script src="{% static 'tienda/js/carrito.js' %}"></script>
-    {% block extra_js %}{% endblock %}
+    <script>
+    // Función para actualizar el contador del carrito
+    function actualizarContadorCarrito() {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const contador = document.getElementById('contador-carrito');
+        if (contador) {
+            contador.textContent = carrito.length;
+        }
+    }
+
+    // Actualizar contador al cargar la página
+    document.addEventListener('DOMContentLoaded', actualizarContadorCarrito);
+
+    // Función para abrir el carrito
+    function abrirCarrito() {
+        const modal = document.getElementById('carritoModal');
+        const overlay = document.getElementById('carritoOverlay');
+        if (modal && overlay) {
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+            actualizarCarrito();
+        }
+    }
+
+    // Función para cerrar el carrito
+    function cerrarCarrito() {
+        const modal = document.getElementById('carritoModal');
+        const overlay = document.getElementById('carritoOverlay');
+        if (modal && overlay) {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    }
+
+    // Función para actualizar el carrito
+    function actualizarCarrito() {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const contenedor = document.getElementById('carritoItems');
+        const subtotalElement = document.getElementById('subtotal');
+        const ivaElement = document.getElementById('iva');
+        const totalElement = document.getElementById('total');
+
+        if (contenedor) {
+            contenedor.innerHTML = '';
+            let subtotal = 0;
+
+            carrito.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'carrito-item';
+                itemElement.innerHTML = `
+                    <img src="${item.imagen}" alt="${item.titulo}" class="carrito-item-img">
+                    <div class="carrito-item-info">
+                        <div class="carrito-item-titulo">${item.titulo}</div>
+                        <div class="carrito-item-precio">CLP$ ${item.precio}</div>
+                        <div class="carrito-item-cantidad">
+                            <button class="carrito-cantidad-btn" onclick="actualizarCantidad(${item.id}, ${item.cantidad - 1})">-</button>
+                            <span>${item.cantidad}</span>
+                            <button class="carrito-cantidad-btn" onclick="actualizarCantidad(${item.id}, ${item.cantidad + 1})">+</button>
+                        </div>
+                    </div>
+                    <button class="carrito-item-eliminar" onclick="eliminarDelCarrito(${item.id})">&times;</button>
+                `;
+                contenedor.appendChild(itemElement);
+                subtotal += item.precio * item.cantidad;
+            });
+
+            const iva = subtotal * 0.19;
+            const total = subtotal + iva;
+
+            if (subtotalElement) subtotalElement.textContent = `CLP$ ${subtotal}`;
+            if (ivaElement) ivaElement.textContent = `CLP$ ${iva}`;
+            if (totalElement) totalElement.textContent = `CLP$ ${total}`;
+        }
+    }
+
+    // Función para actualizar la cantidad de un item
+    function actualizarCantidad(id, nuevaCantidad) {
+        if (nuevaCantidad < 1) return;
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const itemIndex = carrito.findIndex(item => item.id === id);
+        if (itemIndex !== -1) {
+            carrito[itemIndex].cantidad = nuevaCantidad;
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            actualizarCarrito();
+            actualizarContadorCarrito();
+        }
+    }
+
+    // Función para eliminar un item del carrito
+    function eliminarDelCarrito(id) {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const nuevoCarrito = carrito.filter(item => item.id !== id);
+        localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+        actualizarCarrito();
+        actualizarContadorCarrito();
+    }
+
+    // Función para proceder al pago
+    function procederPago() {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        if (carrito.length === 0) {
+            alert('El carrito está vacío');
+            return;
+        }
+        window.location.href = "{% url 'checkout' %}";
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        const carritoBtn = document.getElementById('carritoBtn');
+        const overlay = document.getElementById('carritoOverlay');
+        if (carritoBtn) {
+            carritoBtn.addEventListener('click', abrirCarrito);
+        }
+        if (overlay) {
+            overlay.addEventListener('click', cerrarCarrito);
+        }
+    });
+
+    // Dropdown user menu
+    document.addEventListener('DOMContentLoaded', function() {
+        const userMenu = document.querySelector('.user-menu');
+        const userMenuBtn = document.querySelector('.user-menu-btn');
+        if (userMenu && userMenuBtn) {
+            userMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userMenu.classList.toggle('open');
+            });
+            document.addEventListener('click', function(e) {
+                if (!userMenu.contains(e.target)) {
+                    userMenu.classList.remove('open');
+                }
+            });
+        }
+    });
+    </script>
+    <script src="{% static 'tienda/js/main.js' %}"></script>
 </body>
 </html> 

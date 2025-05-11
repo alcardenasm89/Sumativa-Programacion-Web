@@ -1,0 +1,311 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+body {
+    background: linear-gradient(135deg, #1a2236 0%, #3a1c71 100%);
+    font-family: 'Orbitron', 'Rajdhani', Arial, sans-serif;
+}
+.content-container {
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+.form-box {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 800px;
+    color: #fff;
+}
+.form-box h2 {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-shadow: 0 0 16px #00eaff99;
+    text-align: center;
+}
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(35, 35, 74, 0.5);
+    border-radius: 12px;
+}
+.form-section h3 {
+    color: #00ffb3;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #b0b8d1;
+    font-size: 1.1rem;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+    background: rgba(24, 24, 40, 0.8);
+    color: #fff;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00eaff;
+    box-shadow: 0 0 0 2px rgba(0, 234, 255, 0.2);
+}
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+.error-message {
+    color: #ff4757;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(255, 71, 87, 0.1);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+}
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.btn {
+    padding: 0.9rem 2rem;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-primary {
+    background: #00ffb3;
+    color: #222;
+}
+.btn-primary:hover {
+    background: #00eaff;
+    transform: translateY(-2px);
+}
+.btn-secondary {
+    background: #44445a;
+    color: #fff;
+}
+.btn-secondary:hover {
+    background: #6666a0;
+    transform: translateY(-2px);
+}
+.alert {
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+.alert-success {
+    background: rgba(0, 255, 179, 0.1);
+    border: 1px solid #00ffb3;
+    color: #00ffb3;
+}
+.alert-danger {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid #ff4757;
+    color: #ff4757;
+}
+.alert-warning {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+</style>
+
+<div class="content-container">
+    <div class="form-box">
+        <h2>{{ titulo }}</h2>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" id="videojuegoForm">
+            {% csrf_token %}
+            
+            <div class="form-section">
+                <h3>Información Básica</h3>
+                
+                <div class="form-group">
+                    <label for="{{ form.titulo.id_for_label }}">Título:</label>
+                    {{ form.titulo }}
+                    {% if form.titulo.errors %}
+                    <div class="error-message">{{ form.titulo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.descripcion.id_for_label }}">Descripción:</label>
+                    {{ form.descripcion }}
+                    {% if form.descripcion.errors %}
+                    <div class="error-message">{{ form.descripcion.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.categoria.id_for_label }}">Categoría:</label>
+                    {{ form.categoria }}
+                    {% if form.categoria.errors %}
+                    <div class="error-message">{{ form.categoria.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Detalles del Producto</h3>
+                
+                <div class="form-group">
+                    <label for="{{ form.precio.id_for_label }}">Precio:</label>
+                    {{ form.precio }}
+                    {% if form.precio.errors %}
+                    <div class="error-message">{{ form.precio.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.stock.id_for_label }}">Stock:</label>
+                    {{ form.stock }}
+                    {% if form.stock.errors %}
+                    <div class="error-message">{{ form.stock.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.imagen.id_for_label }}">Imagen:</label>
+                    {{ form.imagen }}
+                    {% if form.imagen.errors %}
+                    <div class="error-message">{{ form.imagen.errors.0 }}</div>
+                    {% endif %}
+                    {% if videojuego and videojuego.imagen %}
+                    <div class="current-image">
+                        <p>Imagen actual:</p>
+                        <img src="{{ videojuego.imagen.url }}" alt="{{ videojuego.titulo }}" style="max-width: 200px; margin-top: 0.5rem;">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Información Adicional</h3>
+                
+                <div class="form-group">
+                    <label for="{{ form.fecha_lanzamiento.id_for_label }}">Fecha de Lanzamiento:</label>
+                    {{ form.fecha_lanzamiento }}
+                    {% if form.fecha_lanzamiento.errors %}
+                    <div class="error-message">{{ form.fecha_lanzamiento.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.desarrollador.id_for_label }}">Desarrollador:</label>
+                    {{ form.desarrollador }}
+                    {% if form.desarrollador.errors %}
+                    <div class="error-message">{{ form.desarrollador.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.plataforma.id_for_label }}">Plataforma:</label>
+                    {{ form.plataforma }}
+                    {% if form.plataforma.errors %}
+                    <div class="error-message">{{ form.plataforma.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'panel-admin' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('videojuegoForm').addEventListener('submit', function(e) {
+    const titulo = document.getElementById('{{ form.titulo.id_for_label }}').value;
+    const descripcion = document.getElementById('{{ form.descripcion.id_for_label }}').value;
+    const precio = document.getElementById('{{ form.precio.id_for_label }}').value;
+    const stock = document.getElementById('{{ form.stock.id_for_label }}').value;
+    const categoria = document.getElementById('{{ form.categoria.id_for_label }}').value;
+    const desarrollador = document.getElementById('{{ form.desarrollador.id_for_label }}').value;
+    const plataforma = document.getElementById('{{ form.plataforma.id_for_label }}').value;
+
+    if (!titulo || !descripcion || !precio || !stock || !categoria || !desarrollador || !plataforma) {
+        e.preventDefault();
+        alert('Por favor, complete todos los campos requeridos');
+        return;
+    }
+
+    if (titulo.length < 3) {
+        e.preventDefault();
+        alert('El título debe tener al menos 3 caracteres');
+        return;
+    }
+
+    if (descripcion.length < 10) {
+        e.preventDefault();
+        alert('La descripción debe tener al menos 10 caracteres');
+        return;
+    }
+
+    if (precio <= 0) {
+        e.preventDefault();
+        alert('El precio debe ser mayor que 0');
+        return;
+    }
+
+    if (stock < 0) {
+        e.preventDefault();
+        alert('El stock no puede ser negativo');
+        return;
+    }
+
+    if (desarrollador.length < 2) {
+        e.preventDefault();
+        alert('El nombre del desarrollador debe tener al menos 2 caracteres');
+        return;
+    }
+
+    if (plataforma.length < 2) {
+        e.preventDefault();
+        alert('La plataforma debe tener al menos 2 caracteres');
+        return;
+    }
+});
+</script>
+{% endblock %} 

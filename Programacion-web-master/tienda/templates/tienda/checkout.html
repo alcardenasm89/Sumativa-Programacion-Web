@@ -1,0 +1,384 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block title %}Checkout - SEVENGAMER{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <div class="checkout-header">
+        <h1>Checkout</h1>
+        <p>Revisa tu pedido antes de confirmar</p>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="checkout-content">
+        <div class="checkout-items">
+            <h2>Items en el carrito</h2>
+            <div id="checkout-items-list"></div>
+        </div>
+
+        <div class="checkout-summary">
+            <h2>Resumen del pedido</h2>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="checkout-subtotal">CLP$ 0</span>
+            </div>
+            <div class="summary-row">
+                <span>IVA (19%):</span>
+                <span id="checkout-iva">CLP$ 0</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span id="checkout-total">CLP$ 0</span>
+            </div>
+
+            <form id="payment-form">
+                <div id="payment-element">
+                    <!-- Stripe Elements se insertará aquí -->
+                </div>
+                <button id="submit" class="confirm-btn">
+                    <span id="button-text">Pagar ahora</span>
+                    <div id="spinner" class="spinner hidden"></div>
+                </button>
+                <div id="payment-message" class="hidden"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.checkout-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.checkout-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.checkout-header h1 {
+    font-family: 'Orbitron', Arial, sans-serif;
+    color: #00ffb3;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.checkout-header p {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    background: rgba(35, 35, 74, 0.5);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 255, 179, 0.1);
+}
+
+.checkout-items h2,
+.checkout-summary h2 {
+    color: #00ffb3;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+#checkout-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.checkout-item {
+    display: flex;
+    align-items: center;
+    background: rgba(24, 24, 40, 0.8);
+    border-radius: 10px;
+    padding: 1rem;
+    color: #fff;
+}
+
+.checkout-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem;
+}
+
+.checkout-item-info {
+    flex: 1;
+}
+
+.checkout-item-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #00eaff;
+    margin-bottom: 0.5rem;
+}
+
+.checkout-item-price {
+    color: #00ffb3;
+    font-size: 1.1rem;
+}
+
+.checkout-item-quantity {
+    color: #fff;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.checkout-summary {
+    background: rgba(24, 24, 40, 0.8);
+    border-radius: 10px;
+    padding: 1.5rem;
+    position: sticky;
+    top: 2rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.summary-row.total {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #00ffb3;
+    margin: 1.5rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#payment-element {
+    margin-bottom: 24px;
+}
+
+#payment-form {
+    margin-top: 2rem;
+}
+
+.confirm-btn {
+    width: 100%;
+    background: #00ffb3;
+    color: #222;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.confirm-btn:hover {
+    background: #00eaff;
+}
+
+.confirm-btn:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+.spinner {
+    color: #ffffff;
+    font-size: 22px;
+    text-indent: -99999px;
+    margin: 0px auto;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    box-shadow: inset 0 0 0 2px;
+    transform: translateZ(0);
+    border-radius: 50%;
+}
+
+.spinner:before,
+.spinner:after {
+    position: absolute;
+    content: '';
+}
+
+.spinner:before {
+    width: 10.4px;
+    height: 20.4px;
+    background: #5469d4;
+    border-radius: 20.4px 0 0 20.4px;
+    top: -0.2px;
+    left: -0.2px;
+    transform-origin: 10.4px 10.2px;
+    animation: loading 2s infinite ease 1.5s;
+}
+
+.spinner:after {
+    width: 10.4px;
+    height: 10.2px;
+    background: #5469d4;
+    border-radius: 0 10.2px 10.2px 0;
+    top: -0.1px;
+    left: 10.2px;
+    transform-origin: 0px 10.2px;
+    animation: loading 2s infinite ease;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+#payment-message {
+    color: rgb(105, 115, 134);
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    padding-top: 12px;
+}
+
+@media (max-width: 768px) {
+    .checkout-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkout-summary {
+        position: static;
+    }
+}
+</style>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stripe = Stripe('{{ stripe_public_key }}');
+    const elements = stripe.elements();
+    const paymentElement = elements.create('payment');
+    paymentElement.mount('#payment-element');
+
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit');
+    const spinner = document.getElementById('spinner');
+    const messageDiv = document.getElementById('payment-message');
+
+    // Cargar items del carrito
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const itemsList = document.getElementById('checkout-items-list');
+    const subtotalElement = document.getElementById('checkout-subtotal');
+    const ivaElement = document.getElementById('checkout-iva');
+    const totalElement = document.getElementById('checkout-total');
+    
+    let subtotal = 0;
+    
+    // Función para formatear precio
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('es-CL', {
+            style: 'currency',
+            currency: 'CLP'
+        }).format(price);
+    };
+    
+    // Cargar items del carrito
+    const loadCartItems = () => {
+        itemsList.innerHTML = '';
+        subtotal = 0;
+        
+        for (const item of carrito) {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'checkout-item';
+            itemElement.innerHTML = `
+                <img src="${item.imagen}" alt="${item.titulo}" class="checkout-item-img">
+                <div class="checkout-item-info">
+                    <div class="checkout-item-title">${item.titulo}</div>
+                    <div class="checkout-item-price">${formatPrice(item.precio)}</div>
+                    <div class="checkout-item-quantity">Cantidad: ${item.cantidad}</div>
+                </div>
+            `;
+            
+            itemsList.appendChild(itemElement);
+            subtotal += item.precio * item.cantidad;
+        }
+        
+        const iva = subtotal * 0.19;
+        const total = subtotal + iva;
+        
+        subtotalElement.textContent = formatPrice(subtotal);
+        ivaElement.textContent = formatPrice(iva);
+        totalElement.textContent = formatPrice(total);
+    };
+    
+    // Inicializar
+    loadCartItems();
+    
+    // Manejar el envío del formulario
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        submitButton.disabled = true;
+        spinner.classList.remove('hidden');
+        
+        try {
+            // Crear el PaymentIntent
+            const response = await fetch('/checkout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `carrito_data=${encodeURIComponent(JSON.stringify(carrito))}`
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                // Confirmar el pago
+                const { error } = await stripe.confirmPayment({
+                    elements,
+                    clientSecret: data.clientSecret,
+                    confirmParams: {
+                        return_url: `${window.location.origin}/payment-success/`,
+                    }
+                });
+                
+                if (error) {
+                    messageDiv.textContent = error.message;
+                    messageDiv.classList.remove('hidden');
+                }
+            } else {
+                messageDiv.textContent = data.error || 'Error al procesar el pago';
+                messageDiv.classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            messageDiv.textContent = 'Error al procesar el pago';
+            messageDiv.classList.remove('hidden');
+        } finally {
+            submitButton.disabled = false;
+            spinner.classList.add('hidden');
+        }
+    });
+});
+</script>
+{% endblock %} 

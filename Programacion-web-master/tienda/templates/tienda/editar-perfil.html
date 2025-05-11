@@ -1,0 +1,256 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil - SEVENGAMER{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <div class="form-box">
+        <h2>{{ titulo }}</h2>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" id="editarPerfilForm" novalidate>
+            {% csrf_token %}
+            
+            <div class="form-section">
+                <h3>Información Personal</h3>
+                
+                <div class="form-group">
+                    <label for="{{ user_form.first_name.id_for_label }}">Nombre:</label>
+                    {{ user_form.first_name }}
+                    {% if user_form.first_name.errors %}
+                    <div class="error-message">{{ user_form.first_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ user_form.last_name.id_for_label }}">Apellido:</label>
+                    {{ user_form.last_name }}
+                    {% if user_form.last_name.errors %}
+                    <div class="error-message">{{ user_form.last_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ user_form.username.id_for_label }}">Nombre de usuario:</label>
+                    {{ user_form.username }}
+                    {% if user_form.username.errors %}
+                    <div class="error-message">{{ user_form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ user_form.email.id_for_label }}">Correo electrónico:</label>
+                    {{ user_form.email }}
+                    {% if user_form.email.errors %}
+                    <div class="error-message">{{ user_form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if cliente_form %}
+            <div class="form-section">
+                <h3>Información de Contacto</h3>
+                
+                <div class="form-group">
+                    <label for="{{ cliente_form.direccion.id_for_label }}">Dirección:</label>
+                    {{ cliente_form.direccion }}
+                    {% if cliente_form.direccion.errors %}
+                    <div class="error-message">{{ cliente_form.direccion.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ cliente_form.telefono.id_for_label }}">Teléfono:</label>
+                    {{ cliente_form.telefono }}
+                    {% if cliente_form.telefono.errors %}
+                    <div class="error-message">{{ cliente_form.telefono.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="button-container">
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+                <a href="{% url 'panel-usuario' %}" class="cancel-btn">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.content-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.form-box {
+    background: rgba(30, 30, 60, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 2rem;
+    color: #b0b8d1;
+}
+
+.form-box h2 {
+    color: #00eaff;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(35, 35, 74, 0.5);
+    border-radius: 12px;
+}
+
+.form-section h3 {
+    color: #00ffb3;
+    font-family: 'Orbitron', Arial, sans-serif;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #00eaff;
+    font-family: 'Rajdhani', Arial, sans-serif;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(24, 24, 40, 0.8);
+    color: #fff;
+    font-family: 'Rajdhani', Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #00eaff;
+    box-shadow: 0 0 0 2px rgba(0, 234, 255, 0.2);
+}
+
+.error-message {
+    color: #ff4757;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.submit-btn {
+    background: #00ffb3;
+    color: #1a2236;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem 2.2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #00eaff;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background: #44445a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 0.9rem 2.2rem;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #6666a0;
+    transform: translateY(-2px);
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background: rgba(0, 255, 179, 0.1);
+    border: 1px solid #00ffb3;
+    color: #00ffb3;
+}
+
+.alert-error {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid #ff4757;
+    color: #ff4757;
+}
+</style>
+
+<script>
+document.getElementById('editarPerfilForm').addEventListener('submit', function(e) {
+    const username = document.getElementById('{{ user_form.username.id_for_label }}').value;
+    const email = document.getElementById('{{ user_form.email.id_for_label }}').value;
+    const first_name = document.getElementById('{{ user_form.first_name.id_for_label }}').value;
+    const last_name = document.getElementById('{{ user_form.last_name.id_for_label }}').value;
+
+    if (!username || !email || !first_name || !last_name) {
+        e.preventDefault();
+        alert('Por favor, complete todos los campos requeridos');
+        return;
+    }
+
+    if (!username.match(/^[a-zA-Z0-9]+$/)) {
+        e.preventDefault();
+        alert('El nombre de usuario solo puede contener letras y números');
+        return;
+    }
+
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        e.preventDefault();
+        alert('Por favor, ingrese un email válido');
+        return;
+    }
+
+    if (!first_name.replace(' ', '').match(/^[a-zA-Z]+$/)) {
+        e.preventDefault();
+        alert('El nombre solo puede contener letras');
+        return;
+    }
+
+    if (!last_name.replace(' ', '').match(/^[a-zA-Z]+$/)) {
+        e.preventDefault();
+        alert('El apellido solo puede contener letras');
+        return;
+    }
+});
+</script>
+{% endblock %} 

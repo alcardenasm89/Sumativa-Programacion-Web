@@ -5,16 +5,14 @@
 {% block content %}
 <div class="content-container">
     {% include 'tienda/sidebar.html' %}
-    <div class="main-content">
-        <h1 style="font-size: 4rem; font-family: 'Orbitron', sans-serif; font-weight: 700;">{{ categoria.nombre }}</h1>
-        <div style="margin-bottom: 2rem; margin-top: 1.5rem;">
-            <form method="get" style="display: flex; align-items: center; gap: 1rem;">
-                <input type="text" name="q" class="form-control" style="font-size: 1.3rem; padding: 1rem; border-radius: 8px; flex: 1;" placeholder="Buscar juegos de {{ categoria.nombre|lower }}..." value="{{ request.GET.q }}">
-                <button type="submit" style="background: #2196f3; border: none; border-radius: 10px; box-shadow: 2px 2px 8px #888; padding: 0.7rem 1.2rem;">
-                    <img src="{% static 'tienda/media/lupa.png' %}" alt="Buscar" style="width: 32px; height: 32px;">
-                </button>
-            </form>
-        </div>
+    <main class="main-content">
+        <h1>{{ categoria.nombre }}</h1>
+        <form method="get" class="search-box" style="display: flex; align-items: center; gap: 1rem;">
+            <input type="text" name="q" class="form-control" style="font-size: 1.3rem; padding: 1rem; border-radius: 8px; flex: 1;" placeholder="Buscar juegos de {{ categoria.nombre|lower }}..." value="{{ request.GET.q }}">
+            <button type="submit" style="background: #2196f3; border: none; border-radius: 10px; box-shadow: 2px 2px 8px #888; padding: 0.7rem 1.2rem;">
+                <img src="{% static 'tienda/media/lupa.png' %}" alt="Buscar" style="width: 32px; height: 32px;">
+            </button>
+        </form>
 
         {% for juego in juegos %}
         <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #eee; display: flex; align-items: center; margin-bottom: 2rem; padding: 1.2rem 1.5rem; gap: 1.5rem;">
@@ -23,7 +21,7 @@
                 <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; font-weight: 500;">{{ juego.titulo }}</div>
                 <div style="color: #2196f3; font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0 1rem 0;">CLP$ {{ juego.precio|intcomma }}</div>
                 <div style="display: flex; gap: 1.5rem; align-items: center;">
-                    <a href="{% url 'detalle-juego' juego.id %}" style="color: #2196f3; font-weight: 600; text-decoration: underline; font-size: 1.1rem;">Ver Detalles</a>
+                    <a href="{% url 'detalle_juego' id=juego.id %}" style="color: #2196f3; font-weight: 600; text-decoration: underline; font-size: 1.1rem;">Ver Detalles</a>
                     <button 
                         class="agregar-carrito-btn"
                         data-id="{{ juego.id }}"
@@ -37,8 +35,8 @@
             </div>
         </div>
         {% empty %}
-        <div class="alert alert-info">No hay juegos disponibles en esta categoría.</div>
+        <p>No hay juegos disponibles en esta categoría.</p>
         {% endfor %}
-    </div>
+    </main>
 </div>
 {% endblock %} 
