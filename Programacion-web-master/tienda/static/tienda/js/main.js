@@ -66,11 +66,11 @@ function actualizarCarrito() {
             <div class="carrito-item-info">
                 <div class="carrito-item-titulo">${item.titulo}</div>
                 <div class="carrito-item-precio">CLP$ ${item.precio.toLocaleString()}</div>
-                <div class="carrito-item-cantidad">
-                    <button class="carrito-cantidad-btn" onclick="cambiarCantidad(${idx}, -1)">-</button>
-                    <span>${item.cantidad}</span>
-                    <button class="carrito-cantidad-btn" onclick="cambiarCantidad(${idx}, 1)">+</button>
-                    <button class="carrito-item-eliminar" onclick="eliminarDelCarrito(${idx})">&times;</button>
+                <div class="carrito-item-cantidad" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                    <button class="carrito-cantidad-btn" onclick="cambiarCantidad(${idx}, -1)" style="background: #00ffb3; color: #1a2236; border: none; border-radius: 5px; width: 30px; height: 30px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
+                    <span style="color: #fff; font-size: 1.1rem; min-width: 30px; text-align: center;">${item.cantidad}</span>
+                    <button class="carrito-cantidad-btn" onclick="cambiarCantidad(${idx}, 1)" style="background: #00ffb3; color: #1a2236; border: none; border-radius: 5px; width: 30px; height: 30px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+                    <button class="carrito-item-eliminar" onclick="eliminarDelCarrito(${idx})" style="background: #ff4757; color: white; border: none; border-radius: 5px; width: 30px; height: 30px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 0.5rem;">×</button>
                 </div>
             </div>
         `;
@@ -106,6 +106,15 @@ function procederPago() {
     guardarCarrito();
     actualizarCarrito();
     cerrarCarrito();
+}
+
+function vaciarCarrito() {
+    if (confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
+        carrito = [];
+        guardarCarrito();
+        actualizarCarrito();
+        cerrarCarrito();
+    }
 }
 
 // Event Listeners

@@ -73,7 +73,10 @@
     <div id="carritoModal" class="carrito-modal" style="display:none; background: rgba(30,30,60,0.97); border-radius: 18px 0 0 18px; box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37); color: #b0b8d1; max-width: 340px; width: 95vw; right: 0;">
         <div class="carrito-header" style="padding: 2rem 2rem 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
             <h2 style="color: #00eaff; font-family: 'Orbitron', Arial, sans-serif;">Carrito de Compras</h2>
-            <button class="cerrar-carrito" onclick="cerrarCarrito()" style="background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; margin-left: 1rem;">&times;</button>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button onclick="vaciarCarrito()" style="background: #ff4757; color: white; border: none; border-radius: 5px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">Vaciar Carrito</button>
+                <button class="cerrar-carrito" onclick="cerrarCarrito()" style="background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; margin-left: 1rem;">&times;</button>
+            </div>
         </div>
         <hr style="border: 0; border-top: 1px solid #444; margin: 0 0 1rem 0;">
         <div class="carrito-items" id="carritoItems"></div>
