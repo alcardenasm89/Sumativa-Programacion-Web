@@ -1,3 +1,6 @@
+setup.bat: para crear el entorno virtual e instalar dependencias.
+runserver.bat: para activar el entorno y levantar el servidor Django.
+
 IMPORTANTE!!!
 API externa de RAWG: http://127.0.0.1:8000/juegos-externos/
 
