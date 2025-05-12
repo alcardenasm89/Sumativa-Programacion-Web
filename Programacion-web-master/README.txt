@@ -1,3 +1,6 @@
+setup.bat: para crear el entorno virtual e instalar dependencias.
+runserver.bat: para activar el entorno y levantar el servidor Django.
+
 IMPORTANTE!!! PUEDE EJECUTAR EL TERMINAL PROFESOR DESDE RUTA NORMAL python manage.py runserver EN EL TERMINAL DJANGO,CASO CONTRARIOPOR SI NO FUNCIONA DESDE runserver.bat DENTRO DE LA CARPETA Programacion-web-master CLAVE DE ADMIN DJANGO //RUTA ADMIN: http://127.0.0.1:8000/admin/
 
 Usuario: ADMIN1 Pass: Oraclecloud123
